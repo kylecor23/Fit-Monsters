@@ -1,38 +1,31 @@
 import { useState } from "react";
-export default function HomePage() {
-	const [isPopupOpen, setIsPopupOpen] = useState(false);
+import { useNavigate } from "react-router-dom";
+import Popup from "../reuseable-components/popup-menu";
 
-	const togglePopup = () => {
-		setIsPopupOpen(!isPopupOpen);
-	};
+export default function HomePage() {
+	const navigate = useNavigate();
+
 	return (
 		<>
 			<header>
 				<h1>Fit Monsters</h1>
 				<nav className="nav">
-					<button onClick={togglePopup}>Show Popup</button>
-					<div
-						className={`overlay ${isPopupOpen ? "active" : ""}`}
-						onClick={togglePopup}
-					>
-						<div className="popup">
-							<ul>
-								<li>
-									<a href="#">About</a>
-								</li>
-								<li>
-									<a href="#">Features</a>
-								</li>
-								<li>
-									<a href="#">Gallery</a>
-								</li>
-							</ul>
-							<button>Sign In</button>
-						</div>
-					</div>
+					<Popup>
+						<ul>
+							<li>
+								<a href="#">About</a>
+							</li>
+							<li>
+								<a href="#">Features</a>
+							</li>
+							<li>
+								<a href="#">Gallery</a>
+							</li>
+						</ul>
+						<button onClick={() => navigate("/login")}>Sign In</button>
+					</Popup>
 				</nav>
 			</header>
-
 			<main>
 				<div>
 					<h1 className="topPage">Fit Monsters</h1>
