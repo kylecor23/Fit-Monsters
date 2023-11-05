@@ -10,16 +10,15 @@ export default function DashBoard() {
 					<Popup>
 						<ul>
 							<li>
-								<a href="#">About</a>
+								<a href="#">Challenges</a>
 							</li>
 							<li>
-								<a href="#">Features</a>
+								<a href="#">History</a>
 							</li>
 							<li>
-								<a href="#">Gallery</a>
+								<a href="#">Store</a>
 							</li>
 						</ul>
-						<button onClick={() => navigate("/login")}>Sign In</button>
 					</Popup>
 				</nav>
 			</header>
