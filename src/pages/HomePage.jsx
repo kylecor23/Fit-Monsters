@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Popup from "../reuseable-components/popup-menu";
+import SlideShow from "../reuseable-components/SlideShow";
 
 export default function HomePage() {
 	const navigate = useNavigate();
@@ -44,6 +45,7 @@ export default function HomePage() {
 						you in this fun and fitness-focused journey.
 					</p>
 				</div>
+				<SlideShow />
 				<div>
 					<h2>Our Features</h2>
 					<ul>
