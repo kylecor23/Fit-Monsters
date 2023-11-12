@@ -205,3 +205,13 @@ header {
 	height: 450px;
 	overflow: hidden;
 }
+
+.challenges {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.challengesTwo {
+	margin: 10px;
+	justify-content: center;
+}
