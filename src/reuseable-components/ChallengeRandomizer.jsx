@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 function RandomChallengeSelector({ label, challengeList }) {
-	const [selectedChallenge, setSelectedChallenge] = useState(null);
-
-	useEffect(() => {
-		selectRandomChallenge();
-	}, []);
-
-	const selectRandomChallenge = () => {
-		const randomIndex = Math.floor(Math.random() * challengeList.length);
-		const randomChallenge = challengeList[randomIndex];
-		setSelectedChallenge(randomChallenge);
-	};
+	const randomIndex = Math.floor(Math.random() * challengeList.length);
+	const randomChallenge = challengeList[randomIndex];
 
 	return (
 		<div className="challengesTwo">
 			<h2>{label}</h2>
-			{selectedChallenge && <p>{selectedChallenge}</p>}
+			{randomChallenge && <p>{randomChallenge}</p>}
 		</div>
 	);
 }

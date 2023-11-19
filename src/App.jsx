@@ -1,13 +1,16 @@
 import "./App.css";
 import "./login.css";
+import StatsProvider from "./reuseable-components/StatsTracker";
 import { RouterProvider } from "react-router-dom";
 import router from "./Routes";
 
 function App() {
 	return (
-		<div className="App">
-			<RouterProvider router={router} />
-		</div>
+		<StatsProvider>
+			<div className="App">
+				<RouterProvider router={router} />
+			</div>
+		</StatsProvider>
 	);
 }
 
