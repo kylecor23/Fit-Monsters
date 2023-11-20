@@ -4,6 +4,7 @@ import StatsContext from "./StatsContex";
 const StatsProvider = ({ children }) => {
 	const [stats, setStats] = useState({
 		steps: 0,
+		calories: 0,
 	});
 
 	const updateStats = (newStats) => {
