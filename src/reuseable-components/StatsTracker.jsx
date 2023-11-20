@@ -22,4 +22,4 @@ const StatsProvider = ({ children }) => {
 	);
 };
 
-export default StatsProvider;
+export { StatsProvider, StatsContext };

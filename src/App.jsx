@@ -1,6 +1,6 @@
 import "./App.css";
 import "./login.css";
-import StatsProvider from "./reuseable-components/StatsTracker";
+import { StatsProvider } from "./reuseable-components/StatsTracker";
 import { RouterProvider } from "react-router-dom";
 import router from "./Routes";
 

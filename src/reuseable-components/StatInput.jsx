@@ -16,6 +16,8 @@ const StepsInputField = ({ activity }) => {
 		setValue(""); // Clear the input field after submission
 	};
 
+	console.log("Current Stats:", stats); //
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<label htmlFor={`${activity}Input`}>Enter {activity}:</label>
