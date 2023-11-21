@@ -5,13 +5,13 @@ import { RouterProvider } from "react-router-dom";
 import router from "./Routes";
 
 function App() {
-	return (
-		<StatsProvider>
-			<div className="App">
-				<RouterProvider router={router} />
-			</div>
-		</StatsProvider>
-	);
+  return (
+    <div className="App">
+      <StatsProvider>
+        <RouterProvider router={router} />
+      </StatsProvider>
+    </div>
+  );
 }
 
 export default App;
