@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Popup from "../reuseable-components/popup-menu";
-import SlideShow from "../reuseable-components/SlideShow";
+import Popup from "../components/popup-menu";
+import SlideShow from "../components/SlideShow";
 
 export default function HomePage() {
 	const navigate = useNavigate();
