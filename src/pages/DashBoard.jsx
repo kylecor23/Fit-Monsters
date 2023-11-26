@@ -2,7 +2,7 @@ import Popup from "../components/popup-menu";
 import RandomChallengeSelector from "../components/ChallengeRandomizer";
 import { Link } from "react-router-dom";
 import { StatsContext } from "../components/StatsTracker";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 
 export default function DashBoard() {
 	const { steps, calories } = useContext(StatsContext);
@@ -24,6 +24,52 @@ export default function DashBoard() {
 		"complete 2 workouts a week",
 		"meditate 10min every day",
 	];
+
+	const storedLastResetTime = localStorage.getItem("lastResetTime");
+	const initialLastResetTime = storedLastResetTime
+		? parseInt(storedLastResetTime, 10)
+		: new Date().getTime();
+
+	const [lastResetTime, setLastResetTime] = useState(initialLastResetTime);
+
+	useEffect(() => {
+		const now = new Date().getTime();
+		const oneDay = 10 * 1000; // For testing, set to 10 seconds
+		const oneWeek = 7 * oneDay;
+		const oneMonth = 30 * oneDay;
+
+		console.log("Now:", now);
+		console.log("Last Reset Time:", lastResetTime);
+
+		if (now - lastResetTime >= oneDay) {
+			setLastResetTime(now);
+			resetChallenges("dailyChallenges");
+			console.log("Daily challenge reset");
+		}
+
+		if (now - lastResetTime >= oneWeek) {
+			setLastResetTime(now);
+			resetChallenges("weeklyChallenges");
+			console.log("Weekly challenge reset");
+		}
+
+		if (now - lastResetTime >= oneMonth) {
+			setLastResetTime(now);
+			resetChallenges("monthlyChallenges");
+			console.log("Monthly challenge reset");
+		}
+	}, [lastResetTime]);
+
+	useEffect(() => {
+		// Save last reset time to localStorage
+		localStorage.setItem("lastResetTime", lastResetTime.toString());
+	}, [lastResetTime]);
+
+	const resetChallenges = (challengeType) => {
+		console.log(`Resetting ${challengeType} challenges`);
+
+		// add logic to reset tasks
+	};
 
 	return (
 		<>
@@ -49,6 +95,7 @@ export default function DashBoard() {
 			<main>
 				<div>
 					<h1>dashboard</h1>
+					<div className="monsterStats"></div>
 					<div className="challenges">
 						<RandomChallengeSelector
 							label="Daily Challenge"
@@ -62,8 +109,8 @@ export default function DashBoard() {
 							label="Monthly Challenge"
 							challengeList={monthlyChallenges}
 						/>
-						<h2>steps:{steps}</h2>
-						<h2>calories:{calories}</h2>
+						<p>Last Reset Time: {new Date(lastResetTime).toLocaleString()}</p>
+						{/* for testing */}
 					</div>
 				</div>
 			</main>
