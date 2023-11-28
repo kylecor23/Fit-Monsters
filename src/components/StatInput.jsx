@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import StatsContext from "./StatsContex";
 
 const StepsInputField = ({ activity }) => {
-	const { stats, updateStats } = useContext(StatsContext);
+	const { updateStats } = useContext(StatsContext);
 	const [value, setValue] = useState("");
 
 	const handleInputChange = (event) => {

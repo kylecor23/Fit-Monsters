@@ -3,6 +3,7 @@ import RandomChallengeSelector from "../components/ChallengeRandomizer";
 import { Link } from "react-router-dom";
 import { StatsContext } from "../components/StatsTracker";
 import { useContext, useState, useEffect } from "react";
+import MonstersInternalGoalTracker from "/Users/kyle/Desktop/Development/fit-monster/src/components/MonsterHealth.jsx";
 
 export default function DashBoard() {
 	const { steps, calories } = useContext(StatsContext);
@@ -25,50 +26,37 @@ export default function DashBoard() {
 		"meditate 10min every day",
 	];
 
-	const storedLastResetTime = localStorage.getItem("lastResetTime");
-	const initialLastResetTime = storedLastResetTime
-		? parseInt(storedLastResetTime, 10)
-		: new Date().getTime();
-
-	const [lastResetTime, setLastResetTime] = useState(initialLastResetTime);
+	const [lastResetTime, setLastResetTime] = useState(new Date().getTime());
 
 	useEffect(() => {
+		// Check if it's a new day, week, or month
 		const now = new Date().getTime();
-		const oneDay = 10 * 1000; // For testing, set to 10 seconds
+		const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
 		const oneWeek = 7 * oneDay;
 		const oneMonth = 30 * oneDay;
 
-		console.log("Now:", now);
-		console.log("Last Reset Time:", lastResetTime);
-
 		if (now - lastResetTime >= oneDay) {
+			// Reset daily challenges
 			setLastResetTime(now);
 			resetChallenges("dailyChallenges");
-			console.log("Daily challenge reset");
 		}
 
 		if (now - lastResetTime >= oneWeek) {
+			// Reset weekly challenges
 			setLastResetTime(now);
 			resetChallenges("weeklyChallenges");
-			console.log("Weekly challenge reset");
 		}
 
 		if (now - lastResetTime >= oneMonth) {
+			// Reset monthly challenges
 			setLastResetTime(now);
 			resetChallenges("monthlyChallenges");
-			console.log("Monthly challenge reset");
 		}
 	}, [lastResetTime]);
 
-	useEffect(() => {
-		// Save last reset time to localStorage
-		localStorage.setItem("lastResetTime", lastResetTime.toString());
-	}, [lastResetTime]);
-
 	const resetChallenges = (challengeType) => {
-		console.log(`Resetting ${challengeType} challenges`);
-
-		// add logic to reset tasks
+		//  logic to reset challenges goes here
+		console.log(`Resetting ${challengeType}`);
 	};
 
 	return (
@@ -95,7 +83,11 @@ export default function DashBoard() {
 			<main>
 				<div>
 					<h1>dashboard</h1>
-					<div className="monsterStats"></div>
+					<div className="challenges">
+						<MonstersInternalGoalTracker goalType={"fitness"} />
+						<MonstersInternalGoalTracker goalType={"health"} />
+						<MonstersInternalGoalTracker goalType={"mind"} />
+					</div>
 					<div className="challenges">
 						<RandomChallengeSelector
 							label="Daily Challenge"
@@ -109,8 +101,6 @@ export default function DashBoard() {
 							label="Monthly Challenge"
 							challengeList={monthlyChallenges}
 						/>
-						<p>Last Reset Time: {new Date(lastResetTime).toLocaleString()}</p>
-						{/* for testing */}
 					</div>
 				</div>
 			</main>

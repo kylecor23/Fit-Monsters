@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 function RandomChallengeSelector({ label, challengeList }) {
 	const randomIndex = Math.floor(Math.random() * challengeList.length);
 	const randomChallenge = challengeList[randomIndex];
