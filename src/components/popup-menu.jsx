@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Popup = ({ children }) => {
+const Popup = ({ buttonText, children }) => {
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
 	const togglePopup = () => {
@@ -9,7 +9,7 @@ const Popup = ({ children }) => {
 
 	return (
 		<>
-			<button onClick={togglePopup}>Show Popup</button>
+			<button onClick={togglePopup}>{buttonText}</button>
 			<div
 				className={`overlay ${isPopupOpen ? "active" : ""}`}
 				onClick={togglePopup}

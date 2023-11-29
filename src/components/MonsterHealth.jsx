@@ -16,6 +16,7 @@ function MonstersInternalGoalTracker({ goalType }) {
 				break;
 			case "health":
 				currentGoalValue = calories >= 1900 && weight > 0;
+				// find a way to make weight only need to be inputed weekly
 				break;
 			case "mind":
 				currentGoalValue = meditation >= 5;

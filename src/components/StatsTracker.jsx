@@ -8,8 +8,8 @@ const StatsProvider = ({ children }) => {
 	// });
 
 	const [steps, setSteps] = useState(0);
-
 	const [calories, setCalories] = useState(0);
+	const [weight, setWeight] = useState(0);
 
 	const updateStats = (activityName, newValue) => {
 		if (activityName === "calories") {
@@ -17,6 +17,10 @@ const StatsProvider = ({ children }) => {
 		}
 		if (activityName === "steps") {
 			setSteps(newValue);
+		}
+
+		if (activityName === "weight") {
+			setWeight(newValue);
 		}
 	};
 	// const updateStats = (newStats) => {
@@ -28,7 +32,7 @@ const StatsProvider = ({ children }) => {
 	// };
 
 	return (
-		<StatsContext.Provider value={{ calories, steps, updateStats }}>
+		<StatsContext.Provider value={{ calories, steps, weight, updateStats }}>
 			{children}
 		</StatsContext.Provider>
 	);

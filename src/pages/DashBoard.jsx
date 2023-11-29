@@ -6,8 +6,6 @@ import { useContext, useState, useEffect } from "react";
 import MonstersInternalGoalTracker from "/Users/kyle/Desktop/Development/fit-monster/src/components/MonsterHealth.jsx";
 
 export default function DashBoard() {
-	const { steps, calories } = useContext(StatsContext);
-
 	const dailyChallenges = [
 		"Get a step goal of 8,000",
 		"Do 50 push-ups",
