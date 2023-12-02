@@ -6,56 +6,44 @@ import { useContext, useState, useEffect } from "react";
 import MonstersInternalGoalTracker from "/Users/kyle/Desktop/Development/fit-monster/src/components/MonsterHealth.jsx";
 
 export default function DashBoard() {
-	const dailyChallenges = [
-		"Get a step goal of 8,000",
-		"Do 50 push-ups",
-		"complete a HIIT workout",
+	const challenges = [
+		{ label: "Get a step goal of 8,000", number: 8000, type: "daily" },
+		{ label: "Do 50 push-ups", number: 50, type: "daily" },
+		{ label: "complete a HIIT workout", number: 1, type: "daily" },
+		{ label: "walk a total of 20,000 steps ", number: 20000, type: "weekly" },
+		{ label: "complete 3 workouts", number: 3, type: "weekly" },
+		{ label: "read 3 hours this week", number: 3, type: "weekly" },
+		{ label: "walk 50km", number: 67000, type: "monthly" },
+		{ label: "complete 2 workouts a week", number: 2, type: "monthly" },
+		{ label: "meditate 2min every day", number: 10, type: "monthly" },
 	];
 
-	const weeklyChallenges = [
-		"walk a total of 20,000 steps ",
-		"complete 3 workouts",
-		"read 3 hours this week",
-	];
+	const [currentDate, setCurrentDate] = useState(new Date());
+	const [nextRefreshDate, setNextRefreshDate] = useState(getStartOfNextDay());
+	const [week, setWeek] = useState(0);
+	const month = currentDate.getMonth();
+	const day = currentDate.getDate();
 
-	const monthlyChallenges = [
-		"walk 50km",
-		"complete 2 workouts a week",
-		"meditate 10min every day",
-	];
-
-	const [lastResetTime, setLastResetTime] = useState(new Date().getTime());
+	function getStartOfNextDay() {
+		const nextDay = new Date(currentDate);
+		nextDay.setDate(nextDay.getDate() + 1);
+		nextDay.setHours(0, 0, 0, 0);
+		return nextDay;
+	}
 
 	useEffect(() => {
-		// Check if it's a new day, week, or month
-		const now = new Date().getTime();
-		const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-		const oneWeek = 7 * oneDay;
-		const oneMonth = 30 * oneDay;
+		const year = new Date(currentDate.getFullYear(), 0, 1);
+		const days = Math.floor((currentDate - year) / (24 * 60 * 60 * 1000));
+		const newWeek = Math.ceil((currentDate.getDay() + 1 + days) / 7);
+		setWeek(newWeek);
 
-		if (now - lastResetTime >= oneDay) {
-			// Reset daily challenges
-			setLastResetTime(now);
-			resetChallenges("dailyChallenges");
+		if (currentDate <= nextRefreshDate) {
 		}
-
-		if (now - lastResetTime >= oneWeek) {
-			// Reset weekly challenges
-			setLastResetTime(now);
-			resetChallenges("weeklyChallenges");
-		}
-
-		if (now - lastResetTime >= oneMonth) {
-			// Reset monthly challenges
-			setLastResetTime(now);
-			resetChallenges("monthlyChallenges");
-		}
-	}, [lastResetTime]);
-
-	const resetChallenges = (challengeType) => {
-		//  logic to reset challenges goes here
-		console.log(`Resetting ${challengeType}`);
-	};
+	}, [currentDate, nextRefreshDate]);
+	console.log(week);
+	console.log(day);
+	console.log(month + 1);
+	console.log(nextRefreshDate);
 
 	return (
 		<>
@@ -89,15 +77,19 @@ export default function DashBoard() {
 					<div className="challenges">
 						<RandomChallengeSelector
 							label="Daily Challenge"
-							challengeList={dailyChallenges}
+							challengeList={challenges.filter((item) => item.type === "daily")}
 						/>
 						<RandomChallengeSelector
 							label="Weekly Challenge"
-							challengeList={weeklyChallenges}
+							challengeList={challenges.filter(
+								(item) => item.type === "weekly"
+							)}
 						/>
 						<RandomChallengeSelector
 							label="Monthly Challenge"
-							challengeList={monthlyChallenges}
+							challengeList={challenges.filter(
+								(item) => item.type === "monthly"
+							)}
 						/>
 					</div>
 				</div>

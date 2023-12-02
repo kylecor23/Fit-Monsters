@@ -5,7 +5,7 @@ function RandomChallengeSelector({ label, challengeList }) {
 	return (
 		<div className="challengesTwo">
 			<h2>{label}</h2>
-			{randomChallenge && <p>{randomChallenge}</p>}
+			{randomChallenge && <p>{randomChallenge.label}</p>}
 		</div>
 	);
 }
