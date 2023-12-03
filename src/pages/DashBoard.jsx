@@ -18,12 +18,11 @@ export default function DashBoard() {
 		{ label: "meditate 2min every day", number: 10, type: "monthly" },
 	];
 
+	const [selectedChallenge, setSelectedChallenge] = useState(null);
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [nextRefreshDate, setNextRefreshDate] = useState(getStartOfNextDay());
 	const [week, setWeek] = useState(0);
-	const month = currentDate.getMonth();
-	const day = currentDate.getDate();
-
+	let currentMonth;
 	function getStartOfNextDay() {
 		const nextDay = new Date(currentDate);
 		nextDay.setDate(nextDay.getDate() + 1);
@@ -33,17 +32,53 @@ export default function DashBoard() {
 
 	useEffect(() => {
 		const year = new Date(currentDate.getFullYear(), 0, 1);
+		currentMonth = currentDate.getMonth() + 1;
 		const days = Math.floor((currentDate - year) / (24 * 60 * 60 * 1000));
 		const newWeek = Math.ceil((currentDate.getDay() + 1 + days) / 7);
 		setWeek(newWeek);
+		// console.log("Current Date:", currentDate);
+		// console.log("Next Refresh Date:", nextRefreshDate);
+		// console.log("Current Week:", newWeek);
+		// console.log("Current Month:", currentMonth);
+	}, [currentDate]);
 
+	useEffect(() => {
+		// Update daily challenge if current date changes
 		if (currentDate <= nextRefreshDate) {
+			const dailyChallenges = challenges.filter(
+				(item) => item.type === "daily"
+			);
+			const randomIndex = Math.floor(Math.random() * dailyChallenges.length);
+			const randomDailyChallenge = dailyChallenges[randomIndex];
+			setSelectedChallenge(randomDailyChallenge);
 		}
 	}, [currentDate, nextRefreshDate]);
-	console.log(week);
-	console.log(day);
-	console.log(month + 1);
-	console.log(nextRefreshDate);
+
+	useEffect(() => {
+		const nextRefreshWeek = week + 1;
+		if (week <= nextRefreshWeek) {
+			const weeklyChallenges = challenges.filter(
+				(item) => item.type === "weekly"
+			);
+			const randomIndex = Math.floor(Math.random() * weeklyChallenges.length);
+			const randomWeeklyChallenge = weeklyChallenges[randomIndex];
+			setSelectedChallenge(randomWeeklyChallenge);
+			// console.log("Next refresh week is " + nextRefreshWeek);
+		}
+	}, [week]);
+
+	useEffect(() => {
+		const nextRefreshMonth = (currentMonth % 12) + 1; // Ensure it wraps around to 1 after December
+		if (currentMonth <= nextRefreshMonth) {
+			const monthlyChallenges = challenges.filter(
+				(item) => item.type === "monthly"
+			);
+			const randomIndex = Math.floor(Math.random() * monthlyChallenges.length);
+			const randomMonthlyChallenge = monthlyChallenges[randomIndex];
+			setSelectedChallenge(randomMonthlyChallenge);
+			// console.log("Next refresh month is " + nextRefreshMonth);
+		}
+	}, [currentMonth]);
 
 	return (
 		<>
