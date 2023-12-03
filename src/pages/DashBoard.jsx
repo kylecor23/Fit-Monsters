@@ -52,7 +52,7 @@ export default function DashBoard() {
       const randomDailyChallenge = dailyChallenges[randomIndex];
       setSelectedChallenge(randomDailyChallenge);
     }
-  }, [challenges, currentDate, nextRefreshDate]);
+  }, [currentDate, nextRefreshDate]);
 
   useEffect(() => {
     const nextRefreshWeek = week + 1;
@@ -65,7 +65,7 @@ export default function DashBoard() {
       setSelectedChallenge(randomWeeklyChallenge);
       // console.log("Next refresh week is " + nextRefreshWeek);
     }
-  }, [challenges, week]);
+  }, [week]);
 
   useEffect(() => {
     const nextRefreshMonth = (currentMonth % 12) + 1; // Ensure it wraps around to 1 after December
@@ -78,7 +78,7 @@ export default function DashBoard() {
       setSelectedChallenge(randomMonthlyChallenge);
       // console.log("Next refresh month is " + nextRefreshMonth);
     }
-  }, [challenges, currentMonth]);
+  }, [currentMonth]);
 
   return (
     <>
