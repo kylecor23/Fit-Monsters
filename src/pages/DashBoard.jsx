@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { StatsContext } from "../components/StatsTracker";
 import { useContext, useState, useEffect, useMemo } from "react";
 import MonstersInternalGoalTracker from "../components/MonsterHealth";
+import { getStartOfNextDay } from "../components/utils";
 
 const challenges = [
   { label: "Get a step goal of 8,000", number: 8000, type: "daily" },
@@ -17,34 +18,24 @@ const challenges = [
   { label: "meditate 2min every day", number: 10, type: "monthly" },
 ];
 
+const nextRefreshDate = getStartOfNextDay(new Date());
+
 export default function DashBoard() {
   const [selectedChallenge, setSelectedChallenge] = useState(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [nextRefreshDate, setNextRefreshDate] = useState(getStartOfNextDay());
   const [week, setWeek] = useState(0);
-  let currentMonth;
-  function getStartOfNextDay() {
-    const nextDay = new Date(currentDate);
-    nextDay.setDate(nextDay.getDate() + 1);
-    nextDay.setHours(0, 0, 0, 0);
-    return nextDay;
-  }
+  const [currentMonth, setCurrentMonth] = useState();
 
   useEffect(() => {
-    const year = new Date(currentDate.getFullYear(), 0, 1);
-    currentMonth = currentDate.getMonth() + 1;
-    const days = Math.floor((currentDate - year) / (24 * 60 * 60 * 1000));
-    const newWeek = Math.ceil((currentDate.getDay() + 1 + days) / 7);
+    const year = new Date(new Date().getFullYear(), 0, 1);
+    setCurrentMonth(new Date().getMonth() + 1);
+    const days = Math.floor((new Date() - year) / (24 * 60 * 60 * 1000));
+    const newWeek = Math.ceil((new Date().getDay() + 1 + days) / 7);
     setWeek(newWeek);
-    // console.log("Current Date:", currentDate);
-    // console.log("Next Refresh Date:", nextRefreshDate);
-    // console.log("Current Week:", newWeek);
-    // console.log("Current Month:", currentMonth);
-  }, [currentDate]);
+  }, []);
 
   useEffect(() => {
     // Update daily challenge if current date changes
-    if (currentDate <= nextRefreshDate) {
+    if (new Date() <= nextRefreshDate) {
       const dailyChallenges = challenges.filter(
         (item) => item.type === "daily"
       );
@@ -52,7 +43,7 @@ export default function DashBoard() {
       const randomDailyChallenge = dailyChallenges[randomIndex];
       setSelectedChallenge(randomDailyChallenge);
     }
-  }, [currentDate, nextRefreshDate]);
+  }, []);
 
   useEffect(() => {
     const nextRefreshWeek = week + 1;
@@ -63,8 +54,9 @@ export default function DashBoard() {
       const randomIndex = Math.floor(Math.random() * weeklyChallenges.length);
       const randomWeeklyChallenge = weeklyChallenges[randomIndex];
       setSelectedChallenge(randomWeeklyChallenge);
-      // console.log("Next refresh week is " + nextRefreshWeek);
     }
+
+    console.log("Next refresh week is " + nextRefreshWeek);
   }, [week]);
 
   useEffect(() => {
@@ -76,8 +68,9 @@ export default function DashBoard() {
       const randomIndex = Math.floor(Math.random() * monthlyChallenges.length);
       const randomMonthlyChallenge = monthlyChallenges[randomIndex];
       setSelectedChallenge(randomMonthlyChallenge);
-      // console.log("Next refresh month is " + nextRefreshMonth);
     }
+
+    console.log("Next refresh month is " + nextRefreshMonth);
   }, [currentMonth]);
 
   return (
