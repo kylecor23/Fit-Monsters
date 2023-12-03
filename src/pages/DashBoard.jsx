@@ -2,22 +2,22 @@ import Popup from "../components/popup-menu";
 import RandomChallengeSelector from "../components/ChallengeRandomizer";
 import { Link } from "react-router-dom";
 import { StatsContext } from "../components/StatsTracker";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 import MonstersInternalGoalTracker from "../components/MonsterHealth";
 
-export default function DashBoard() {
-  const challenges = [
-    { label: "Get a step goal of 8,000", number: 8000, type: "daily" },
-    { label: "Do 50 push-ups", number: 50, type: "daily" },
-    { label: "complete a HIIT workout", number: 1, type: "daily" },
-    { label: "walk a total of 20,000 steps ", number: 20000, type: "weekly" },
-    { label: "complete 3 workouts", number: 3, type: "weekly" },
-    { label: "read 3 hours this week", number: 3, type: "weekly" },
-    { label: "walk 50km", number: 67000, type: "monthly" },
-    { label: "complete 2 workouts a week", number: 2, type: "monthly" },
-    { label: "meditate 2min every day", number: 10, type: "monthly" },
-  ];
+const challenges = [
+  { label: "Get a step goal of 8,000", number: 8000, type: "daily" },
+  { label: "Do 50 push-ups", number: 50, type: "daily" },
+  { label: "complete a HIIT workout", number: 1, type: "daily" },
+  { label: "walk a total of 20,000 steps ", number: 20000, type: "weekly" },
+  { label: "complete 3 workouts", number: 3, type: "weekly" },
+  { label: "read 3 hours this week", number: 3, type: "weekly" },
+  { label: "walk 50km", number: 67000, type: "monthly" },
+  { label: "complete 2 workouts a week", number: 2, type: "monthly" },
+  { label: "meditate 2min every day", number: 10, type: "monthly" },
+];
 
+export default function DashBoard() {
   const [selectedChallenge, setSelectedChallenge] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [nextRefreshDate, setNextRefreshDate] = useState(getStartOfNextDay());
@@ -52,7 +52,7 @@ export default function DashBoard() {
       const randomDailyChallenge = dailyChallenges[randomIndex];
       setSelectedChallenge(randomDailyChallenge);
     }
-  }, [currentDate, nextRefreshDate]);
+  }, [challenges, currentDate, nextRefreshDate]);
 
   useEffect(() => {
     const nextRefreshWeek = week + 1;
@@ -65,7 +65,7 @@ export default function DashBoard() {
       setSelectedChallenge(randomWeeklyChallenge);
       // console.log("Next refresh week is " + nextRefreshWeek);
     }
-  }, [week]);
+  }, [challenges, week]);
 
   useEffect(() => {
     const nextRefreshMonth = (currentMonth % 12) + 1; // Ensure it wraps around to 1 after December
@@ -78,7 +78,7 @@ export default function DashBoard() {
       setSelectedChallenge(randomMonthlyChallenge);
       // console.log("Next refresh month is " + nextRefreshMonth);
     }
-  }, [currentMonth]);
+  }, [challenges, currentMonth]);
 
   return (
     <>
