@@ -1,11 +1,8 @@
-function RandomChallengeSelector({ label, challengeList }) {
-	const randomIndex = Math.floor(Math.random() * challengeList.length);
-	const randomChallenge = challengeList[randomIndex];
-
+function RandomChallengeSelector({ label, selectedChallenge }) {
 	return (
 		<div className="challengesTwo">
 			<h2>{label}</h2>
-			{randomChallenge && <p>{randomChallenge.label}</p>}
+			{selectedChallenge && <p>{selectedChallenge.label}</p>}
 		</div>
 	);
 }
