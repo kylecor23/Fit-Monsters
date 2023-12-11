@@ -84,9 +84,43 @@ export default function DashBoard() {
 			);
 			const randomIndex = Math.floor(Math.random() * dailyChallenges.length);
 			const randomDailyChallenge = dailyChallenges[randomIndex];
-			setSelectedChallenge(randomDailyChallenge);
+
+			setSelectedChallenge((currentChallenge) => {
+				// Check if the random challenge is different from the current one
+				if (currentChallenge?.label !== randomDailyChallenge.label) {
+					return {
+						...randomDailyChallenge,
+						isCompleted: false,
+					};
+				}
+				return currentChallenge;
+			});
 		}
-	}, []);
+
+		let isChallengeCompleted = false;
+
+		switch (selectedChallenge?.subtype) {
+			case "steps":
+				isChallengeCompleted = steps >= selectedChallenge.number;
+				break;
+			default:
+				// Handle unknown challenge types or set isChallengeCompleted to false
+				break;
+		}
+
+		// Only update if the completion status has changed
+		if (selectedChallenge?.isCompleted !== isChallengeCompleted) {
+			setSelectedChallenge((currentChallenge) => ({
+				...currentChallenge,
+				isCompleted: isChallengeCompleted,
+			}));
+
+			if (isChallengeCompleted) {
+				console.log(`Daily challenge completed!`);
+				//  other actions to perform when the challenge is completed
+			}
+		}
+	}, [selectedChallenge, stepsValue]);
 
 	useEffect(() => {
 		// Update weekly challenge if the current week changes and the challenge is not completed
@@ -100,7 +134,30 @@ export default function DashBoard() {
 			setSelectedChallenge(randomWeeklyChallenge);
 		}
 
-		console.log("Next refresh week is " + nextRefreshWeek);
+		let isChallengeCompleted = false;
+
+		switch (selectedChallenge?.subtype) {
+			case "steps":
+				isChallengeCompleted = steps >= selectedChallenge.number;
+				break;
+
+			default:
+				// Handle unknown challenge types or set isChallengeCompleted to false
+				break;
+		}
+
+		// Only update if the completion status has changed
+		if (selectedChallenge?.isCompleted !== isChallengeCompleted) {
+			setSelectedChallenge((currentChallenge) => ({
+				...currentChallenge,
+				isCompleted: isChallengeCompleted,
+			}));
+
+			if (isChallengeCompleted) {
+				console.log(`Weekly challenge completed!`);
+				//  other actions to perform when the challenge is completed
+			}
+		}
 	}, [week]);
 
 	useEffect(() => {
@@ -115,7 +172,30 @@ export default function DashBoard() {
 			setSelectedChallenge(randomMonthlyChallenge);
 		}
 
-		console.log("Next refresh month is " + nextRefreshMonth);
+		let isChallengeCompleted = false;
+
+		switch (selectedChallenge?.subtype) {
+			case "steps":
+				isChallengeCompleted = steps >= selectedChallenge.number;
+				break;
+
+			default:
+				// Handle unknown challenge types or set isChallengeCompleted to false
+				break;
+		}
+
+		// Only update if the completion status has changed
+		if (selectedChallenge?.isCompleted !== isChallengeCompleted) {
+			setSelectedChallenge((currentChallenge) => ({
+				...currentChallenge,
+				isCompleted: isChallengeCompleted,
+			}));
+
+			if (isChallengeCompleted) {
+				console.log(`Monthly challenge completed!`);
+				//  other actions to perform when the challenge is completed
+			}
+		}
 	}, [currentMonth]);
 
 	return (
