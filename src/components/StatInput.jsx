@@ -14,7 +14,9 @@ const StepsInputField = ({ activity }) => {
 		event.preventDefault();
 		console.log(activity, parseInt(value, 10) || 0);
 		updateStats(activity, parseInt(value, 10) || 0);
-		setValue(""); // Clear the input field after submission
+		if (value !== "") {
+			setValue(""); // Clear the input field after submission
+		}
 	};
 
 	// useEffect(() => {
