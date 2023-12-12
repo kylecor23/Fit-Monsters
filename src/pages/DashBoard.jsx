@@ -117,7 +117,7 @@ export default function DashBoard() {
 
 			if (isChallengeCompleted) {
 				console.log(`Daily challenge completed!`);
-				// Add any other actions you want to perform when the challenge is completed
+				//  other actions to perform when the challenge is completed
 			}
 		}
 	}, [selectedChallenge, stepsValue]);
@@ -125,7 +125,7 @@ export default function DashBoard() {
 	useEffect(() => {
 		// Update weekly challenge if the current week changes and the challenge is not completed
 		const nextRefreshWeek = week + 1;
-		if (week <= nextRefreshWeek && !selectedChallenge?.isCompleted) {
+		if (week <= nextRefreshWeek) {
 			const weeklyChallenges = challenges.filter(
 				(item) => item.type === "weekly"
 			);
@@ -155,7 +155,7 @@ export default function DashBoard() {
 
 			if (isChallengeCompleted) {
 				console.log(`Weekly challenge completed!`);
-				// Add any other actions you want to perform when the challenge is completed
+				//  other actions to perform when the challenge is completed
 			}
 		}
 	}, [week]);
@@ -193,7 +193,7 @@ export default function DashBoard() {
 
 			if (isChallengeCompleted) {
 				console.log(`Monthly challenge completed!`);
-				// Add any other actions you want to perform when the challenge is completed
+				//  other actions to perform when the challenge is completed
 			}
 		}
 	}, [currentMonth]);
