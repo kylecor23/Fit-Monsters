@@ -202,7 +202,13 @@ export default function DashBoard() {
         //  other actions to perform when the challenge is completed
       }
     }
-  }, [currentMonth]);
+  }, [
+    currentMonth,
+    selectedChallenge?.isCompleted,
+    selectedChallenge?.number,
+    selectedChallenge?.subtype,
+    steps,
+  ]);
 
   return (
     <>
