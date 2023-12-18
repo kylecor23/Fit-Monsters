@@ -1,266 +1,165 @@
 import React, { useContext, useState, useEffect } from "react";
 import Popup from "../components/popup-menu";
-import RandomChallengeSelector from "../components/ChallengeRandomizer";
 import { Link } from "react-router-dom";
 import MonstersInternalGoalTracker from "../components/MonsterHealth";
 import { getStartOfNextDay } from "../components/utils";
 import StatsContext from "../components/StatsContex";
+import StepsInputField from "../components/StatInput";
 
 const challenges = [
-  {
-    label: "Get a step goal of 8,000",
-    number: 8000,
-    type: "daily",
-    subtype: "steps",
-  },
-  { label: "Do 50 push-ups", number: 50, type: "daily", subtype: "workout" },
-  {
-    label: "complete a HIIT workout",
-    number: 1,
-    type: "daily",
-    subtype: "workout",
-  },
-  {
-    label: "walk a total of 20,000 steps",
-    number: 20000,
-    type: "weekly",
-    subtype: "steps",
-  },
-  {
-    label: "complete 3 workouts",
-    number: 3,
-    type: "weekly",
-    subtype: "steps",
-  },
-  {
-    label: "read 3 hours this week",
-    number: 3,
-    type: "weekly",
-    subtype: "mental",
-  },
-  {
-    label: "walk 50km",
-    number: 67000,
-    type: "monthly",
-    subtype: "steps",
-  },
-  {
-    label: "complete 2 workouts a week",
-    number: 2,
-    type: "monthly",
-    subtype: "workout",
-  },
-  {
-    label: "meditate 2min every day",
-    number: 10,
-    type: "monthly",
-    subtype: "mental",
-  },
+	{
+		label: "Get a step goal of 8,000",
+		number: 8000,
+		type: "daily",
+		subtype: "steps",
+	},
+	{ label: "Do 50 push-ups", number: 50, type: "daily", subtype: "workout" },
+	{
+		label: "complete a HIIT workout",
+		number: 1,
+		type: "daily",
+		subtype: "workout",
+	},
+	{
+		label: "walk a total of 20,000 steps",
+		number: 20000,
+		type: "weekly",
+		subtype: "steps",
+	},
+	{
+		label: "complete 3 workouts",
+		number: 3,
+		type: "weekly",
+		subtype: "steps",
+	},
+	{
+		label: "read 3 hours this week",
+		number: 3,
+		type: "weekly",
+		subtype: "mental",
+	},
+	{
+		label: "walk 50km",
+		number: 67000,
+		type: "monthly",
+		subtype: "steps",
+	},
+	{
+		label: "complete 2 workouts a week",
+		number: 2,
+		type: "monthly",
+		subtype: "workout",
+	},
+	{
+		label: "meditate 2min every day",
+		number: 10,
+		type: "monthly",
+		subtype: "mental",
+	},
 ];
 
+const nextRefreshDate = getStartOfNextDay(new Date());
+
+const getIsChallengeCompleted = (selectedChallenge, steps) => {
+	let isChallengeCompleted = false;
+
+	switch (selectedChallenge?.subtype) {
+		case "steps":
+			isChallengeCompleted = steps >= selectedChallenge.number;
+			break;
+
+		default:
+			//  set isChallengeCompleted to false
+			break;
+	}
+
+	return isChallengeCompleted;
+};
+
 export default function DashBoard() {
-  const { steps, calories, weight } = useContext(StatsContext);
+	const { steps } = useContext(StatsContext);
 
-  const [selectedChallenge, setSelectedChallenge] = useState(null);
-  const [week, setWeek] = useState(0);
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
-  const [stepsValue, setStepsValue] = useState(0);
+	const [dailySelectedChallenge, setDailySelectedChallenge] = useState();
+	const [week, setWeek] = useState(0);
+	const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
 
-  useEffect(() => {
-    const year = new Date(new Date().getFullYear(), 0, 1);
-    setCurrentMonth(new Date().getMonth() + 1);
-    const days = Math.floor((new Date() - year) / (24 * 60 * 60 * 1000));
-    const newWeek = Math.ceil((new Date().getDay() + 1 + days) / 7);
-    setWeek(newWeek);
-  }, []);
+	useEffect(() => {
+		const year = new Date(new Date().getFullYear(), 0, 1);
+		setCurrentMonth(new Date().getMonth() + 1);
+		const days = Math.floor((new Date() - year) / (24 * 60 * 60 * 1000));
+		const newWeek = Math.ceil((new Date().getDay() + 1 + days) / 7);
+		setWeek(newWeek);
+	}, []);
 
-  useEffect(() => {
-    const nextRefreshDate = getStartOfNextDay(new Date());
+	useEffect(() => {
+		// Update daily challenge if the current date changes and the challenge is not completed
+		if (new Date() <= nextRefreshDate) {
+			const dailyChallenges = challenges.filter(
+				(item) => item.type === "daily"
+			);
+			const randomIndex = Math.floor(Math.random() * dailyChallenges.length);
+			const randomDailyChallenge = dailyChallenges[randomIndex];
 
-    // Update daily challenge if the current date changes and the challenge is not completed
-    if (new Date() <= nextRefreshDate && !selectedChallenge?.isCompleted) {
-      const dailyChallenges = challenges.filter(
-        (item) => item.type === "daily"
-      );
-      const randomIndex = Math.floor(Math.random() * dailyChallenges.length);
-      const randomDailyChallenge = dailyChallenges[randomIndex];
+			setDailySelectedChallenge((currentChallenge) => {
+				if (currentChallenge?.label !== randomDailyChallenge.label) {
+					return {
+						...randomDailyChallenge,
+						isCompleted: false,
+					};
+				}
+				return currentChallenge;
+			});
+		}
+	}, [steps]);
 
-      setSelectedChallenge((currentChallenge) => {
-        // Check if the random challenge is different from the current one
-        if (currentChallenge?.label !== randomDailyChallenge.label) {
-          return {
-            ...randomDailyChallenge,
-            isCompleted: false,
-          };
-        }
-        return currentChallenge;
-      });
-    }
+	useEffect(() => {
+		const isChallengeCompleted = getIsChallengeCompleted(
+			dailySelectedChallenge,
+			steps
+		);
 
-    let isChallengeCompleted = false;
+		if (isChallengeCompleted) {
+			console.log(`${dailySelectedChallenge.label} completed!`);
+		}
+	}, [dailySelectedChallenge, steps]);
 
-    switch (selectedChallenge?.subtype) {
-      case "steps":
-        isChallengeCompleted = steps >= selectedChallenge.number;
-        break;
-      default:
-        // Handle unknown challenge types or set isChallengeCompleted to false
-        break;
-    }
+	return (
+		<>
+			<header>
+				<h1>Fit Monsters</h1>
+				<nav className="nav">
+					<Popup>
+						<ul>
+							<li>
+								<Link to="/stats">Stats</Link>
+							</li>
+							<li>
+								<a href="#">History</a>
+							</li>
+							<li>
+								<a href="#">Store</a>
+							</li>
+						</ul>
+					</Popup>
+				</nav>
+			</header>
 
-    // Only update if the completion status has changed
-    if (selectedChallenge?.isCompleted !== isChallengeCompleted) {
-      setSelectedChallenge((currentChallenge) => ({
-        ...currentChallenge,
-        isCompleted: isChallengeCompleted,
-      }));
-
-      if (isChallengeCompleted) {
-        console.log(`Daily challenge completed!`);
-        //  other actions to perform when the challenge is completed
-      }
-    }
-  }, [selectedChallenge, steps, stepsValue]);
-
-  useEffect(() => {
-    // Update weekly challenge if the current week changes and the challenge is not completed
-    const nextRefreshWeek = week + 1;
-    if (week <= nextRefreshWeek) {
-      const weeklyChallenges = challenges.filter(
-        (item) => item.type === "weekly"
-      );
-      const randomIndex = Math.floor(Math.random() * weeklyChallenges.length);
-      const randomWeeklyChallenge = weeklyChallenges[randomIndex];
-      setSelectedChallenge(randomWeeklyChallenge);
-    }
-
-    let isChallengeCompleted = false;
-
-    switch (selectedChallenge?.subtype) {
-      case "steps":
-        isChallengeCompleted = steps >= selectedChallenge.number;
-        break;
-
-      default:
-        // Handle unknown challenge types or set isChallengeCompleted to false
-        break;
-    }
-
-    // Only update if the completion status has changed
-    if (selectedChallenge?.isCompleted !== isChallengeCompleted) {
-      setSelectedChallenge((currentChallenge) => ({
-        ...currentChallenge,
-        isCompleted: isChallengeCompleted,
-      }));
-
-      if (isChallengeCompleted) {
-        console.log(`Weekly challenge completed!`);
-        //  other actions to perform when the challenge is completed
-      }
-    }
-  }, [
-    selectedChallenge?.isCompleted,
-    selectedChallenge?.number,
-    selectedChallenge?.subtype,
-    steps,
-    week,
-  ]);
-
-  useEffect(() => {
-    // Update monthly challenge if the current month changes
-    const nextRefreshMonth = currentMonth === 12 ? 1 : currentMonth + 1;
-    if (currentMonth <= nextRefreshMonth) {
-      const monthlyChallenges = challenges.filter(
-        (item) => item.type === "monthly"
-      );
-      const randomIndex = Math.floor(Math.random() * monthlyChallenges.length);
-      const randomMonthlyChallenge = monthlyChallenges[randomIndex];
-      setSelectedChallenge(randomMonthlyChallenge);
-    }
-
-    let isChallengeCompleted = false;
-
-    switch (selectedChallenge?.subtype) {
-      case "steps":
-        isChallengeCompleted = steps >= selectedChallenge.number;
-        break;
-
-      default:
-        // Handle unknown challenge types or set isChallengeCompleted to false
-        break;
-    }
-
-    // Only update if the completion status has changed
-    if (selectedChallenge?.isCompleted !== isChallengeCompleted) {
-      setSelectedChallenge((currentChallenge) => ({
-        ...currentChallenge,
-        isCompleted: isChallengeCompleted,
-      }));
-
-      if (isChallengeCompleted) {
-        console.log(`Monthly challenge completed!`);
-        //  other actions to perform when the challenge is completed
-      }
-    }
-  }, [
-    currentMonth,
-    selectedChallenge?.isCompleted,
-    selectedChallenge?.number,
-    selectedChallenge?.subtype,
-    steps,
-  ]);
-
-  return (
-    <>
-      <header>
-        <h1>Fit Monsters</h1>
-        <nav className="nav">
-          <Popup>
-            <ul>
-              <li>
-                <Link to="/stats">Stats</Link>
-              </li>
-              <li>
-                <a href="#">History</a>
-              </li>
-              <li>
-                <a href="#">Store</a>
-              </li>
-            </ul>
-          </Popup>
-        </nav>
-      </header>
-
-      <main>
-        <div>
-          <h1>dashboard</h1>
-          <div className="challenges">
-            <MonstersInternalGoalTracker goalType={"fitness"} />
-            <MonstersInternalGoalTracker goalType={"health"} />
-            <MonstersInternalGoalTracker goalType={"mind"} />
-          </div>
-          <div className="challenges">
-            <RandomChallengeSelector
-              label="Daily Challenge"
-              selectedChallenge={
-                challenges.find((item) => item.type === "daily") || null
-              }
-            />
-            <RandomChallengeSelector
-              label="Weekly Challenge"
-              selectedChallenge={
-                challenges.find((item) => item.type === "weekly") || null
-              }
-            />
-            <RandomChallengeSelector
-              label="Monthly Challenge"
-              selectedChallenge={
-                challenges.find((item) => item.type === "monthly") || null
-              }
-            />
-          </div>
-        </div>
-      </main>
-    </>
-  );
+			<main>
+				<div>
+					<h1>dashboard</h1>
+					<div className="challenges">
+						<MonstersInternalGoalTracker goalType={"fitness"} />
+						<MonstersInternalGoalTracker goalType={"health"} />
+						<MonstersInternalGoalTracker goalType={"mind"} />
+					</div>
+					<div className="challenges">
+						<div className="challengesTwo">
+							<h2>Daily Challenge</h2>
+							{dailySelectedChallenge && <p>{dailySelectedChallenge.label}</p>}
+						</div>
+					</div>
+				</div>
+			</main>
+		</>
+	);
 }
