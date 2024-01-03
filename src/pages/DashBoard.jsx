@@ -2,9 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import Popup from "../components/popup-menu";
 import { Link } from "react-router-dom";
 import MonstersInternalGoalTracker from "../components/MonsterHealth";
-import { getStartOfNextDay } from "../components/utils";
 import StatsContext from "../components/StatsContex";
-import StepsInputField from "../components/StatInput";
 import { pickItemBasedOnDate } from "../components/utils";
 
 const challenges = [
@@ -19,7 +17,7 @@ const challenges = [
 		label: "complete a HIIT workout",
 		number: 1,
 		type: "daily",
-		subtype: "workout",
+		subtype: "steps",
 	},
 	{
 		label: "walk a total of 20,000 steps",
@@ -68,22 +66,24 @@ const getIsChallengeCompleted = (selectedChallenge, steps) => {
 			break;
 
 		default:
-			//  set isChallengeCompleted to false
+			// set isChallengeCompleted to false
 			break;
 	}
 
 	return isChallengeCompleted;
 };
 
-const dailyChallenge = pickItemBasedOnDate(challenges, "daily");
-
-const monthlyChallenge = pickItemBasedOnDate(challenges, "monthly");
-
 export default function DashBoard() {
-	const { steps } = useContext(StatsContext);
+	const { steps, workout, calories, meditation, weight } =
+		useContext(StatsContext);
 
-	const [dailySelectedChallenge, setDailySelectedChallenge] =
-		useState(dailyChallenge);
+	const [dailySelectedChallenge, setDailySelectedChallenge] = useState(
+		pickItemBasedOnDate(challenges, "daily")
+	);
+
+	const [weeklySelectedChallenge, setWeeklySelectedChallenge] = useState(
+		pickItemBasedOnDate(challenges, "weekly")
+	);
 
 	const [monthlySelectedChallenge, setMonthlySelectedChallenge] = useState(
 		pickItemBasedOnDate(challenges, "monthly")
@@ -102,13 +102,29 @@ export default function DashBoard() {
 
 	useEffect(() => {
 		const isChallengeCompleted = getIsChallengeCompleted(
+			weeklySelectedChallenge,
+			steps
+		);
+		if (isChallengeCompleted) {
+			console.log(`${weeklySelectedChallenge.label} completed!`);
+		}
+	}, [weeklySelectedChallenge, steps]);
+
+	useEffect(() => {
+		const isChallengeCompleted = getIsChallengeCompleted(
 			monthlySelectedChallenge,
 			steps
 		);
 		if (isChallengeCompleted) {
-			console.log(`${monthlyChallenge.label} completed!`);
+			console.log(`${monthlySelectedChallenge.label} completed!`);
 		}
-	});
+	}, [monthlySelectedChallenge, steps]);
+
+	// Dummy progress calculations (replace with real logic)
+	const fitnessProgress = Math.min((steps / 8000) * 100, 100);
+	const healthProgress = Math.min((calories / 2500) * 100, 100); // Assuming 2500 is the goal
+	const mindProgress = Math.min((meditation / 10) * 100, 100); // Assuming 10 minutes is the goal
+
 	return (
 		<>
 			<header>
@@ -134,16 +150,33 @@ export default function DashBoard() {
 				<div>
 					<h1>dashboard</h1>
 					<div className="challenges">
-						<MonstersInternalGoalTracker goalType={"fitness"} />
-						<MonstersInternalGoalTracker goalType={"health"} />
-						<MonstersInternalGoalTracker goalType={"mind"} />
+						<MonstersInternalGoalTracker
+							goalType="fitness"
+							progress={fitnessProgress}
+						/>
+						<MonstersInternalGoalTracker
+							goalType="health"
+							progress={healthProgress}
+						/>
+						<MonstersInternalGoalTracker
+							goalType="mind"
+							progress={mindProgress}
+						/>
 					</div>
 					<div className="challenges">
 						<div className="challengesTwo">
 							<h2>Daily Challenge</h2>
 							{dailySelectedChallenge && <p>{dailySelectedChallenge.label}</p>}
+
+							<h2>Weekly Challenge</h2>
+							{weeklySelectedChallenge && (
+								<p>{weeklySelectedChallenge.label}</p>
+							)}
+
 							<h2>Monthly Challenge</h2>
-							{monthlyChallenge && <p>{monthlyChallenge.label}</p>}
+							{monthlySelectedChallenge && (
+								<p>{monthlySelectedChallenge.label}</p>
+							)}
 						</div>
 					</div>
 				</div>

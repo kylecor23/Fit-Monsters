@@ -215,3 +215,30 @@ header {
 	margin: 10px;
 	justify-content: center;
 }
+/* new css  */
+
+.progress-container {
+	position: relative;
+	display: inline-block;
+}
+
+.progress-ring {
+	transform: rotate(-90deg);
+	transform-origin: 50% 50%;
+}
+
+.progress-ring circle {
+	transition: stroke-dashoffset 0.35s;
+	stroke: orange;
+	fill: transparent;
+}
+
+.center-image {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 40px; /* Adjust as needed */
+	height: 40px; /* Adjust as needed */
+	border-radius: 50%; /* Optional: for circular images */
+}
