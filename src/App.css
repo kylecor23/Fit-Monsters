@@ -209,36 +209,39 @@ header {
 .challenges {
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: space-around;
 }
 .challengesTwo {
-	margin: 10px;
+	margin: 20px;
 	justify-content: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 }
 /* new css  */
-
 .progress-container {
+	display: flex;
+	justify-content: space-around;
+}
+.progress {
+	width: 180px; /* Adjust the width and height as needed */
+	height: 180px; /* Adjust the width and height as needed */
+	border: 6px solid #262626;
+	border-radius: 50%; /* Make it circular */
+	background: url(https://image.ibb.co/fmHm66/wave.png);
+	background-position: 0px 350px;
+	background-repeat: repeat-x;
+	animation: filling 10s ease-in-out infinite;
+	box-shadow: 0 0 0 6px #fff, 0 20px 35px rgba(0, 0, 0, 1);
 	position: relative;
-	display: inline-block;
+	z-index: 1;
 }
 
-.progress-ring {
-	transform: rotate(-90deg);
-	transform-origin: 50% 50%;
-}
-
-.progress-ring circle {
-	transition: stroke-dashoffset 0.35s;
-	stroke: orange;
-	fill: transparent;
-}
-
-.center-image {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 40px; /* Adjust as needed */
-	height: 40px; /* Adjust as needed */
-	border-radius: 50%; /* Optional: for circular images */
+@keyframes filling {
+	50% {
+		background-position: 1000px 0px;
+	}
+	100% {
+		background-position: 6000px 350px;
+	}
 }

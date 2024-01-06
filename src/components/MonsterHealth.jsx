@@ -7,11 +7,6 @@ function MonstersInternalGoalTracker({ goalType }) {
 	const [isGoalCompleted, setGoalCompleted] = useState(false);
 	const [progress, setProgress] = useState(0);
 
-	const radius = 58;
-	const stroke = 4;
-	const normalizedRadius = radius - stroke * 2;
-	const circumference = normalizedRadius * 2 * Math.PI;
-
 	useEffect(() => {
 		let currentGoalValue;
 		let goalProgress = 0;
@@ -38,26 +33,11 @@ function MonstersInternalGoalTracker({ goalType }) {
 		setProgress(goalProgress);
 	}, [goalType, steps, workout, calories, meditation, weight]);
 
-	const strokeDashoffset = circumference - (progress / 100) * circumference;
-
 	return (
-		<div className="progress-container">
-			<svg height={radius * 2} width={radius * 2} className="progress-ring">
-				<circle
-					className="progress-ring__circle"
-					strokeWidth={stroke}
-					strokeDasharray={circumference + " " + circumference}
-					style={{ strokeDashoffset }}
-					r={normalizedRadius}
-					cx={radius}
-					cy={radius}
-				/>
-			</svg>
-			{/* <img
-				src="path-to-your-image.jpg" // Replace with your image path
-				className="center-image"
-				alt="Center Image"
-			/> */}
+		<div>
+			<div className="progress-container">
+				<div className="progress"></div>
+			</div>
 			<p>
 				{goalType} Goal Completed: {isGoalCompleted ? "Yes" : "No"}
 			</p>

@@ -120,7 +120,7 @@ export default function DashBoard() {
 		}
 	}, [monthlySelectedChallenge, steps]);
 
-	// Dummy progress calculations (replace with real logic)
+	// (replace with real logic)
 	const fitnessProgress = Math.min((steps / 8000) * 100, 100);
 	const healthProgress = Math.min((calories / 2500) * 100, 100); // Assuming 2500 is the goal
 	const mindProgress = Math.min((meditation / 10) * 100, 100); // Assuming 10 minutes is the goal
@@ -165,18 +165,24 @@ export default function DashBoard() {
 					</div>
 					<div className="challenges">
 						<div className="challengesTwo">
-							<h2>Daily Challenge</h2>
-							{dailySelectedChallenge && <p>{dailySelectedChallenge.label}</p>}
-
-							<h2>Weekly Challenge</h2>
-							{weeklySelectedChallenge && (
-								<p>{weeklySelectedChallenge.label}</p>
-							)}
-
-							<h2>Monthly Challenge</h2>
-							{monthlySelectedChallenge && (
-								<p>{monthlySelectedChallenge.label}</p>
-							)}
+							<div className="challenge">
+								<h2>Daily Challenge</h2>
+								{dailySelectedChallenge && (
+									<p>{dailySelectedChallenge.label}</p>
+								)}
+							</div>
+							<div className="challenge">
+								<h2>Weekly Challenge</h2>
+								{weeklySelectedChallenge && (
+									<p>{weeklySelectedChallenge.label}</p>
+								)}
+							</div>
+							<div className="challenge">
+								<h2>Monthly Challenge</h2>
+								{monthlySelectedChallenge && (
+									<p>{monthlySelectedChallenge.label}</p>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
