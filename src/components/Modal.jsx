@@ -17,9 +17,11 @@ function Modal({ onClose, children }) {
 
 	return (
 		<div className="modal" style={{ zIndex: 9999 }}>
-			<div className="modalContent">
-				{children}
-				<button onClick={onClose}>Close</button>
+			<div className="modalContainer">
+				<div className="modalContent">
+					{children}
+					{/* <button onClick={onClose}>Close</button> */}
+				</div>
 			</div>
 		</div>
 	);

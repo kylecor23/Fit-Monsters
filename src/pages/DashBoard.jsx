@@ -35,8 +35,14 @@ export default function DashBoard() {
 			</header>
 
 			<main>
-				<div>
+				<div className="dashboard">
 					<h1>dashboard</h1>
+					<div className="dasboard">
+						<img
+							src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
+							alt="fit monster"
+						/>
+					</div>
 					<div className="challenges">
 						<MonstersInternalGoalTracker
 							goalType="fitness"
