@@ -4,6 +4,7 @@ import AboutPage from "./pages/AboutPage";
 import LogIn from "./pages/LogIn";
 import DashBoard from "./pages/DashBoard";
 import Stats from "./pages/Stats";
+import ChallengePage from "./pages/Challenges";
 
 const router = createBrowserRouter([
 	{
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
 	{
 		path: "/stats",
 		element: <Stats />,
+	},
+	{
+		path: "/challenges",
+		element: <ChallengePage />,
 	},
 ]);
 

@@ -15,13 +15,9 @@ const StepsInputField = ({ activity }) => {
 		console.log(activity, parseInt(value, 10) || 0);
 		updateStats(activity, parseInt(value, 10) || 0);
 		if (value !== "") {
-			setValue(""); // Clear the input field after submission
+			setValue("");
 		}
 	};
-
-	// useEffect(() => {
-	//   console.log(stats);
-	// }, [stats]);
 
 	return (
 		<form onSubmit={handleSubmit}>

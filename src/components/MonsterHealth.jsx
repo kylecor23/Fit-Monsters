@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
+import Modal from "./Modal";
 import { StatsContext } from "../components/StatsTracker";
 
-function MonstersInternalGoalTracker({ goalType }) {
+function MonstersInternalGoalTracker({ goalType, progress, children }) {
 	const { steps, workout, calories, meditation, weight } =
 		useContext(StatsContext);
 	const [isGoalCompleted, setGoalCompleted] = useState(false);
-	const [progress, setProgress] = useState(0);
+	const [showModal, setShowModal] = useState(false);
+	const [inputValue, setInputValue] = useState("");
 
 	useEffect(() => {
 		let currentGoalValue;
@@ -30,17 +32,32 @@ function MonstersInternalGoalTracker({ goalType }) {
 		}
 
 		setGoalCompleted(currentGoalValue);
-		setProgress(goalProgress);
 	}, [goalType, steps, workout, calories, meditation, weight]);
+
+	const openModal = () => {
+		setShowModal(true);
+	};
+
+	const closeModal = () => {
+		setShowModal(false);
+	};
+
+	const handleInputChange = (e) => {
+		setInputValue(e.target.value);
+	};
 
 	return (
 		<div>
-			<div className="progress-container">
-				<div className="progress"></div>
+			<div onClick={openModal}>
+				<div className="progress-container">
+					<div className="progress"></div>
+				</div>
+				<p>
+					{goalType} Goal Completed: {isGoalCompleted ? "Yes" : "No"}
+				</p>
 			</div>
-			<p>
-				{goalType} Goal Completed: {isGoalCompleted ? "Yes" : "No"}
-			</p>
+
+			{showModal && <Modal onClose={closeModal}>{children}</Modal>}
 		</div>
 	);
 }
