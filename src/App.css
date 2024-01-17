@@ -242,8 +242,8 @@ header {
 }
 
 .modalContainer {
-	width: 80%; /* Set the desired width of the modal container */
-	max-width: 400px; /* Add a maximum width if needed */
+	width: 80%;
+	max-width: 400px;
 	background-color: white;
 	padding: 20px;
 	border-radius: 8px;
@@ -263,15 +263,15 @@ header {
 	display: flex;
 }
 .progress {
-	width: 180px; /* Adjust the width and height as needed */
-	height: 180px; /* Adjust the width and height as needed */
+	width: 180px;
+	height: 180px;
 	border: 6px solid #262626;
-	border-radius: 50%; /* Make it circular */
+	border-radius: 50%;
 	background: url(https://image.ibb.co/fmHm66/wave.png);
 	background-position: 0px 350px;
 	background-repeat: repeat-x;
 	animation: filling 300s ease-in infinite;
-	/* box-shadow: 0 0 0 6px #fff, 0 20px 35px rgba(0, 0, 0, 1); */
+
 	position: relative;
 	z-index: 1;
 	margin: 10px;
