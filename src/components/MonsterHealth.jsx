@@ -7,30 +7,42 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 		useContext(StatsContext);
 	const [isGoalCompleted, setGoalCompleted] = useState(false);
 	const [showModal, setShowModal] = useState(false);
-	const [inputValue, setInputValue] = useState("");
+	const [overlayImage, setOverlayImage] = useState("");
+
+	useEffect(() => {
+		// Determine overlay image based on goal type
+		switch (goalType) {
+			case "fitness":
+				setOverlayImage("src/assets/strength.png");
+				break;
+			case "health":
+				setOverlayImage("src/assets/heart.png");
+				break;
+			case "mind":
+				setOverlayImage("src/assets/mind.png");
+				break;
+			default:
+				setOverlayImage("");
+				break;
+		}
+	}, [goalType]);
 
 	useEffect(() => {
 		let currentGoalValue;
-		let goalProgress = 0;
-
 		switch (goalType) {
 			case "fitness":
 				currentGoalValue = steps >= 4000 || workout >= 30;
-				goalProgress = currentGoalValue ? 100 : (steps / 4000) * 100;
 				break;
 			case "health":
 				currentGoalValue = calories >= 1900 && weight > 0;
-				goalProgress = currentGoalValue ? 100 : (calories / 1900) * 100;
 				break;
 			case "mind":
 				currentGoalValue = meditation >= 5;
-				goalProgress = currentGoalValue ? 100 : (meditation / 5) * 100;
 				break;
 			default:
 				currentGoalValue = false;
 				break;
 		}
-
 		setGoalCompleted(currentGoalValue);
 	}, [goalType, steps, workout, calories, meditation, weight]);
 
@@ -42,21 +54,20 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 		setShowModal(false);
 	};
 
-	const handleInputChange = (e) => {
-		setInputValue(e.target.value);
-	};
-
 	return (
 		<div>
 			<div onClick={openModal}>
 				<div className="progress-container">
-					<div className="progress"></div>
+					<div className="progress">
+						{overlayImage && (
+							<img className="overlay-image" src={overlayImage} alt="Overlay" />
+						)}
+					</div>
 				</div>
 				<p>
 					{goalType} Goal Completed: {isGoalCompleted ? "Yes" : "No"}
 				</p>
 			</div>
-
 			{showModal && <Modal onClose={closeModal}>{children}</Modal>}
 		</div>
 	);
