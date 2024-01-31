@@ -1,9 +1,10 @@
+// MonsterInternalGoalTracker.jsx
 import React, { useContext, useState, useEffect } from "react";
 import Modal from "./Modal";
 import { StatsContext } from "../components/StatsTracker";
 
 function MonstersInternalGoalTracker({ goalType, progress, children }) {
-	const { steps, workout, calories, meditation, weight } =
+	const { steps, workout, calories, meditation, weight, journal } =
 		useContext(StatsContext);
 	const [isGoalCompleted, setGoalCompleted] = useState(false);
 	const [showModal, setShowModal] = useState(false);
@@ -37,14 +38,17 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 				currentGoalValue = calories >= 1900 && weight > 0;
 				break;
 			case "mind":
-				currentGoalValue = meditation >= 5;
+				currentGoalValue = meditation >= 1 || journal !== "";
+				console.log("Mind goal updated:", currentGoalValue);
 				break;
 			default:
 				currentGoalValue = false;
 				break;
 		}
+
+		console.log("Setting goal completion status:", currentGoalValue);
 		setGoalCompleted(currentGoalValue);
-	}, [goalType, steps, workout, calories, meditation, weight]);
+	}, [goalType, steps, workout, calories, meditation, weight, journal]);
 
 	const openModal = () => {
 		setShowModal(true);

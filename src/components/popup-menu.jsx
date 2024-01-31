@@ -9,7 +9,7 @@ const Popup = ({ buttonText, children }) => {
 
 	return (
 		<>
-			<button onClick={togglePopup}>{buttonText}</button>
+			<button onClick={togglePopup}>;{buttonText}</button>
 			<div
 				className={`overlay ${isPopupOpen ? "active" : ""}`}
 				onClick={togglePopup}

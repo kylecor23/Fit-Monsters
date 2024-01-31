@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import StatsContext from "./StatsContex";
 
-const StepsInputField = ({ activity }) => {
+const StepsInputField = ({ activity, onTaskComplete, taskType }) => {
 	const { updateStats } = useContext(StatsContext);
 	const [value, setValue] = useState("");
 
@@ -12,22 +12,40 @@ const StepsInputField = ({ activity }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log(activity, parseInt(value, 10) || 0);
-		updateStats(activity, parseInt(value, 10) || 0);
-		if (value !== "") {
+
+		if (onTaskComplete) {
+			// If onTaskComplete is provided, consider it a task check
+			onTaskComplete();
+		} else {
+			// Otherwise, treat it as numeric input
+			updateStats(activity, parseInt(value, 10) || 0);
 			setValue("");
 		}
 	};
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<label htmlFor={`${activity}Input`}>Enter {activity}:</label>
-			<input
-				type="text"
-				id={`${activity}Input`}
-				value={value}
-				onChange={handleInputChange}
-			/>
+			<label htmlFor={`${activity}Input`}>
+				{onTaskComplete
+					? `Check if ${taskType || activity} is done:`
+					: `Enter ${activity}:`}
+			</label>
+			{onTaskComplete ? (
+				// You can customize this part based on the task type
+				<input
+					type="text"
+					id={`${activity}Input`}
+					value={value}
+					onChange={handleInputChange}
+				/>
+			) : (
+				<input
+					type="text"
+					id={`${activity}Input`}
+					value={value}
+					onChange={handleInputChange}
+				/>
+			)}
 			<button type="submit">Submit</button>
 		</form>
 	);
