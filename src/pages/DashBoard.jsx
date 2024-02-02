@@ -9,42 +9,17 @@ import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";
 
 export default function DashBoard() {
-	const { steps, calories, meditation } = useContext(StatsContext);
+	const { steps, calories, meditation, journal } = useContext(StatsContext);
+	const [showJournalModal, setShowJournalModal] = useState(false);
 
-	// used for progress bar
+	const toggleJournalModal = () => {
+		setShowJournalModal(!showJournalModal);
+	};
+
 	const fitnessProgress = Math.min((steps / 8000) * 100, 100);
 	const healthProgress = Math.min((calories / 2500) * 100, 100);
 	const mindProgress = Math.min((meditation / 10) * 100, 100);
 
-	const [showMeditationModal, setShowMeditationModal] = useState(false);
-
-	const [showJournalModal, setShowJournalModal] = useState(false);
-
-	const [showMindModal, setShowMindModal] = useState(false);
-
-	const openMeditationModal = () => {
-		setShowMeditationModal(true);
-	};
-
-	const closeMeditationModal = () => {
-		setShowMeditationModal(false);
-	};
-
-	const openJournalModal = () => {
-		setShowJournalModal(true);
-	};
-
-	const closeJournalModal = () => {
-		setShowJournalModal(false);
-	};
-
-	const openMindModal = () => {
-		setShowMindModal(true);
-	};
-
-	const closeMindModal = () => {
-		setShowMindModal(false);
-	};
 	return (
 		<>
 			<header>
@@ -92,34 +67,15 @@ export default function DashBoard() {
 							goalType="mind"
 							progress={mindProgress}
 						>
-							{/*open Meditation Timer modal */}
-							<button onClick={() => setShowMeditationModal(true)}>
-								Log Meditation
-							</button>
-							{showMeditationModal && (
-								<Modal onClose={() => setShowMeditationModal(false)}>
-									<MeditationTimer
-										onClose={() => setShowMeditationModal(false)}
-									/>
-								</Modal>
-							)}
+							<button onClick={toggleJournalModal}>Open Journal</button>
 
-							{/*open Journal Entry modal */}
-							<button onClick={() => setShowJournalModal(true)}>
-								Log Journal Entry
-							</button>
 							{showJournalModal && (
-								<Modal onClose={() => setShowJournalModal(false)}>
-									<JournalEntryInput />
-								</Modal>
+								<JournalEntryInput
+									showModal={showJournalModal}
+									onClose={toggleJournalModal}
+								/>
 							)}
 						</MonstersInternalGoalTracker>
-						{/* Journal  */}
-						{showMindModal && (
-							<Modal onClose={() => setShowMindModal(false)}>
-								<JournalEntryInput />
-							</Modal>
-						)}
 					</div>
 				</div>
 			</main>

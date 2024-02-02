@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import StepsInputField from "./StatInput";
 import { useContext } from "react";
 import StatsContext from "./StatsContex";
+import Modal from "./Modal";
 
-const MeditationTimer = ({ onClose }) => {
+const MeditationTimer = ({ showModal, onClose }) => {
 	const [duration, setDuration] = useState(5); // Default duration is 5 minutes
 	const [isTimerStarted, setIsTimerStarted] = useState(false);
 	const [timer, setTimer] = useState(duration * 60);
@@ -11,9 +12,8 @@ const MeditationTimer = ({ onClose }) => {
 
 	const handleInputChange = (event) => {
 		const inputValue = event.target.value;
-		setDuration(inputValue); // Update the duration state
+		setDuration(inputValue);
 
-		// Only update the timer if the input value is a valid number
 		if (!isNaN(inputValue)) {
 			setTimer(Math.max(1, parseInt(inputValue, 10)) * 60);
 		}
@@ -42,7 +42,6 @@ const MeditationTimer = ({ onClose }) => {
 	const handleTimerComplete = () => {
 		setIsTimerStarted(false);
 		onClose();
-
 		updateStats("meditation", duration);
 	};
 
@@ -51,25 +50,27 @@ const MeditationTimer = ({ onClose }) => {
 		.padStart(2, "0")}:${(timer % 60).toString().padStart(2, "0")}`;
 
 	return (
-		<div>
-			<label htmlFor="meditationDuration">
-				Set meditation duration (minutes):
-			</label>
-			<input
-				type="number"
-				id="meditationDuration"
-				value={duration}
-				min={1}
-				onChange={handleInputChange}
-			/>
-			{!isTimerStarted && (
-				<button onClick={handleStartTimer}>Start Meditation</button>
-			)}
-			{isTimerStarted && <div>{formattedTimer}</div>}
-			{timer === 0 && (
-				<StepsInputField activity="meditation" taskType="meditation" />
-			)}
-		</div>
+		<Modal onClose={onClose} show={showModal}>
+			<div>
+				<label htmlFor="meditationDuration">
+					Set meditation duration (minutes):
+				</label>
+				<input
+					type="number"
+					id="meditationDuration"
+					value={duration}
+					min={1}
+					onChange={handleInputChange}
+				/>
+				{!isTimerStarted && (
+					<button onClick={handleStartTimer}>Start Meditation</button>
+				)}
+				{isTimerStarted && <div>{formattedTimer}</div>}
+				{timer === 0 && (
+					<StepsInputField activity="meditation" taskType="meditation" />
+				)}
+			</div>
+		</Modal>
 	);
 };
 
