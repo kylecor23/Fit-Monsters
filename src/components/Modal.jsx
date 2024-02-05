@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 function Modal({ onClose, children }) {
-	useEffect(() => {
-		const handleOutsideClick = (e) => {
-			if (!e.target.closest(".modalContent")) {
-				onClose();
-			}
-		};
+	const modalRef = useRef(null);
 
+	const handleOutsideClick = (e) => {
+		if (modalRef.current && !modalRef.current.contains(e.target)) {
+			onClose();
+		}
+	};
+
+	useEffect(() => {
 		document.addEventListener("mousedown", handleOutsideClick);
 
 		return () => {
@@ -17,7 +19,7 @@ function Modal({ onClose, children }) {
 
 	return (
 		<div className="modal" style={{ zIndex: 9999 }}>
-			<div className="modalContainer">
+			<div className="modalContainer" ref={modalRef}>
 				<div className="modalContent">
 					{children}
 					{/* <button onClick={onClose}>Close</button> */}

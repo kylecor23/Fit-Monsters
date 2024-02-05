@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import StatsContext from "./StatsContex";
 import Modal from "./Modal";
 
-const JournalEntryInput = ({ showModal, onClose }) => {
+const JournalEntryInput = ({ onClose }) => {
 	const [journalEntry, setJournalEntry] = useState("");
 	const { updateStats } = useContext(StatsContext);
 
@@ -17,33 +17,25 @@ const JournalEntryInput = ({ showModal, onClose }) => {
 		onClose();
 	};
 
-	const handleOutsideClick = (event) => {
-		if (event.target === event.currentTarget) {
+	const handleOverlayClick = (event) => {
+		if (event.target.classList.contains("modal-overlay")) {
 			onClose();
 		}
 	};
 
-	useEffect(() => {
-		if (showModal) {
-			document.addEventListener("mousedown", handleOutsideClick);
-		}
-
-		return () => {
-			document.removeEventListener("mousedown", handleOutsideClick);
-		};
-	}, [showModal, onClose]);
-
 	return (
-		<Modal onClose={onClose} show={showModal}>
-			<form onSubmit={handleJournalSubmit}>
-				<label htmlFor="journalEntry">Write your daily journal:</label>
-				<textarea
-					id="journalEntry"
-					value={journalEntry}
-					onChange={handleInputChange}
-				/>
-				<button type="submit">Submit Journal Entry</button>
-			</form>
+		<Modal show={true} onClose={onClose}>
+			<div className="journal" onClick={handleOverlayClick}>
+				<form onSubmit={handleJournalSubmit}>
+					<label htmlFor="journalEntry">Write your daily journal:</label>
+					<textarea
+						id="journalEntry"
+						value={journalEntry}
+						onChange={handleInputChange}
+					/>
+					<button type="submit">Submit Journal Entry</button>
+				</form>
+			</div>
 		</Modal>
 	);
 };

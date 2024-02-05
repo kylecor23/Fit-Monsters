@@ -31,7 +31,6 @@ const StepsInputField = ({ activity, onTaskComplete, taskType }) => {
 					: `Enter ${activity}:`}
 			</label>
 			{onTaskComplete ? (
-				// You can customize this part based on the task type
 				<input
 					type="text"
 					id={`${activity}Input`}
