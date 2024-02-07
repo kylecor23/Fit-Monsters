@@ -45,7 +45,9 @@ const StepsInputField = ({ activity, onTaskComplete, taskType }) => {
 					onChange={handleInputChange}
 				/>
 			)}
-			<button type="submit">Submit</button>
+			<button className="modalButton" type="submit">
+				Submit
+			</button>
 		</form>
 	);
 };

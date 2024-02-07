@@ -11,9 +11,14 @@ import MeditationTimer from "../components/MeditationTimer";
 export default function DashBoard() {
 	const { steps, calories, meditation, journal } = useContext(StatsContext);
 	const [showJournalModal, setShowJournalModal] = useState(false);
+	const [showMeditationModal, setShowMeditationModal] = useState(false);
 
 	const toggleJournalModal = () => {
 		setShowJournalModal(!showJournalModal);
+	};
+
+	const toggleMeditationModal = () => {
+		setShowMeditationModal(!showMeditationModal);
 	};
 
 	const fitnessProgress = Math.min((steps / 8000) * 100, 100);
@@ -67,12 +72,25 @@ export default function DashBoard() {
 							goalType="mind"
 							progress={mindProgress}
 						>
-							<button onClick={toggleJournalModal}>Open Journal</button>
+							<button className="modalButton" onClick={toggleJournalModal}>
+								Open Journal
+							</button>
+
+							<button className="modalButton" onClick={toggleMeditationModal}>
+								Open Meditation
+							</button>
 
 							{showJournalModal && (
 								<JournalEntryInput
 									showModal={showJournalModal}
 									onClose={toggleJournalModal}
+								/>
+							)}
+
+							{showMeditationModal && (
+								<MeditationTimer
+									showModal={showMeditationModal}
+									onClose={toggleMeditationModal}
 								/>
 							)}
 						</MonstersInternalGoalTracker>
