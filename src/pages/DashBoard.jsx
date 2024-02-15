@@ -1,10 +1,8 @@
 import React, { useContext, useState } from "react";
-import Popup from "../components/popup-menu";
 import { Link } from "react-router-dom";
 import MonstersInternalGoalTracker from "../components/MonsterInternalGoal";
 import StatsContext from "../components/StatsContex";
 import StepsInputField from "../components/StatInput";
-import Modal from "../components/Modal";
 import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";
 
@@ -29,74 +27,73 @@ export default function DashBoard() {
 		<>
 			<header>
 				<h1>Fit Monsters</h1>
-				<nav className="nav">
-					<Popup>
-						<ul>
-							<li>
-								<Link to="/stats">Stats</Link>
-							</li>
-							<li>
-								<Link to="/challenges">Challenges</Link>
-							</li>
-						</ul>
-					</Popup>
-				</nav>
 			</header>
+			<div className="container">
+				<aside className="nav">
+					<ul>
+						<li>
+							<Link to="/stats">Stats</Link>
+						</li>
+						<li>
+							<Link to="/challenges">Challenges</Link>
+						</li>
+					</ul>
+				</aside>
+				<main>
+					<div className="dashboard">
+						<h1>dashboard</h1>
+						<div className="dasboard">
+							<img
+								src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
+								alt="fit monster"
+							/>
+						</div>
+						<div className="challenges">
+							<MonstersInternalGoalTracker
+								goalType="fitness"
+								progress={fitnessProgress}
+							>
+								<StepsInputField activity="steps" />
+							</MonstersInternalGoalTracker>
 
-			<main>
-				<div className="dashboard">
-					<h1>dashboard</h1>
-					<div className="dasboard">
-						<img
-							src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
-							alt="fit monster"
-						/>
+							<MonstersInternalGoalTracker
+								goalType="health"
+								progress={healthProgress}
+							>
+								<StepsInputField activity="calories" />
+								<StepsInputField activity="weight" />
+							</MonstersInternalGoalTracker>
+
+							<MonstersInternalGoalTracker
+								goalType="mind"
+								progress={mindProgress}
+							>
+								<button className="modalButton" onClick={toggleJournalModal}>
+									Open Journal
+								</button>
+
+								<button className="modalButton" onClick={toggleMeditationModal}>
+									Open Meditation
+								</button>
+
+								{showJournalModal && (
+									<JournalEntryInput
+										showModal={showJournalModal}
+										onClose={toggleJournalModal}
+									/>
+								)}
+
+								{showMeditationModal && (
+									<MeditationTimer
+										showModal={showMeditationModal}
+										onClose={toggleMeditationModal}
+									/>
+								)}
+							</MonstersInternalGoalTracker>
+						</div>
 					</div>
-					<div className="challenges">
-						<MonstersInternalGoalTracker
-							goalType="fitness"
-							progress={fitnessProgress}
-						>
-							<StepsInputField activity="steps" />
-						</MonstersInternalGoalTracker>
-
-						<MonstersInternalGoalTracker
-							goalType="health"
-							progress={healthProgress}
-						>
-							<StepsInputField activity="calories" />
-							<StepsInputField activity="weight" />
-						</MonstersInternalGoalTracker>
-
-						<MonstersInternalGoalTracker
-							goalType="mind"
-							progress={mindProgress}
-						>
-							<button className="modalButton" onClick={toggleJournalModal}>
-								Open Journal
-							</button>
-
-							<button className="modalButton" onClick={toggleMeditationModal}>
-								Open Meditation
-							</button>
-
-							{showJournalModal && (
-								<JournalEntryInput
-									showModal={showJournalModal}
-									onClose={toggleJournalModal}
-								/>
-							)}
-
-							{showMeditationModal && (
-								<MeditationTimer
-									showModal={showMeditationModal}
-									onClose={toggleMeditationModal}
-								/>
-							)}
-						</MonstersInternalGoalTracker>
-					</div>
-				</div>
-			</main>
+				</main>
+			</div>
 		</>
 	);
 }
