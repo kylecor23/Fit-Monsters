@@ -19,12 +19,9 @@ body {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 header {
-	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px 0;
-	background-color: #333;
-	color: #fff;
 }
 
 h1 {
@@ -35,13 +32,15 @@ h1 {
 	display: flex;
 }
 aside {
-	background-color: #f0f0f0;
+	background-color: white;
+	border: #030304;
 	width: 200px;
 	padding: 20px;
+	margin: 10px;
+	border-right: 1px solid #000000;
 }
 
 nav {
-	display: flex;
 	padding: 10px;
 }
 
@@ -52,11 +51,13 @@ nav {
 
 .nav ul li {
 	margin-bottom: 10px;
+	padding: 10px;
 }
-
+.nav ul li:hover {
+	background-color: lightgray;
+}
 .nav ul li a {
 	text-decoration: none;
-	color: #333;
 }
 
 nav button {
@@ -86,7 +87,7 @@ nav button:hover {
 	z-index: 1000;
 }
 
-.popup {
+/* .popup {
 	background-color: #fff;
 	border: 1px solid #ccc;
 	padding: 20px;
@@ -106,11 +107,14 @@ nav button:hover {
 .popup a {
 	text-decoration: none;
 	color: #333;
-}
+} */
 
 .main {
 	display: flex;
 	margin-top: 20px;
+	text-align: center;
+	padding: 20px;
+	flex-grow: 1;
 }
 
 .section2 {
@@ -212,7 +216,6 @@ header {
 }
 
 .nav {
-	display: flex;
 	align-items: center;
 }
 
@@ -233,10 +236,11 @@ header {
 .dashboard {
 	margin: auto;
 	display: flex;
-	flex: 1;
+	flex: 8;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	flex-grow: 1;
 }
 
 .challenges {
