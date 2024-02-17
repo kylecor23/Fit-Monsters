@@ -52,12 +52,14 @@ nav {
 .nav ul li {
 	margin-bottom: 10px;
 	padding: 10px;
+	font-size: larger;
 }
 .nav ul li:hover {
 	background-color: lightgray;
 }
 .nav ul li a {
 	text-decoration: none;
+	margin-left: 10px;
 }
 
 nav button {

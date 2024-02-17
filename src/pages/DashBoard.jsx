@@ -5,6 +5,10 @@ import StatsContext from "../components/StatsContex";
 import StepsInputField from "../components/StatInput";
 import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";
+import { faGhost } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { faScroll } from "@fortawesome/free-solid-svg-icons";
 
 export default function DashBoard() {
 	const { steps, calories, meditation, journal } = useContext(StatsContext);
@@ -32,12 +36,15 @@ export default function DashBoard() {
 					</header>
 					<ul>
 						<li>
+							<FontAwesomeIcon icon={faGhost} />
 							<Link to="/dashboard">Home</Link>
 						</li>
 						<li>
+							<FontAwesomeIcon icon={faChartLine} />
 							<Link to="/stats">Stats</Link>
 						</li>
 						<li>
+							<FontAwesomeIcon icon={faScroll} />
 							<Link to="/challenges">Challenges</Link>
 						</li>
 					</ul>
