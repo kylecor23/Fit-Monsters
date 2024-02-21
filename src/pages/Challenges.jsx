@@ -3,6 +3,10 @@ import Popup from "../components/popup-menu";
 import { Link } from "react-router-dom";
 import StatsContext from "../components/StatsContex";
 import { pickItemBasedOnDate } from "../components/utils";
+import { faGhost } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { faScroll } from "@fortawesome/free-solid-svg-icons";
 
 const challenges = [
 	{
@@ -121,53 +125,58 @@ export default function ChallengePage() {
 
 	return (
 		<>
-			<header>
-				<h1>Fit Monsters</h1>
-				<nav className="nav">
-					<Popup>
-						<ul>
-							<li>
-								<Link to="/dashboard">Dashboard</Link>
-							</li>
-							<li>
-								<Link to="/stats">Stats</Link>
-							</li>
-							<li>
-								<Link to="/challenges">Challenges</Link>
-							</li>
-						</ul>
-					</Popup>
-				</nav>
-			</header>
+			<div className="container">
+				<aside className="nav">
+					<header>
+						<h1>Fit Monsters</h1>
+					</header>
+					<ul>
+						<li>
+							<FontAwesomeIcon icon={faGhost} />
+							<Link to="/dashboard">Home</Link>
+						</li>
+						<li>
+							<FontAwesomeIcon icon={faChartLine} />
+							<Link to="/stats">Stats</Link>
+						</li>
+						<li>
+							<FontAwesomeIcon icon={faScroll} />
+							<Link to="/challenges">Challenges</Link>
+						</li>
+					</ul>
+				</aside>
 
-			<main>
-				<div className="dasboard">
-					<img
-						src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
-						alt="fit monster"
-					/>
-				</div>
-				<div className="challenges">
-					<div className="challengesTwo">
-						<div className="challenge">
-							<h2>Daily Challenge</h2>
-							{dailySelectedChallenge && <p>{dailySelectedChallenge.label}</p>}
-						</div>
-						<div className="challenge">
-							<h2>Weekly Challenge</h2>
-							{weeklySelectedChallenge && (
-								<p>{weeklySelectedChallenge.label}</p>
-							)}
-						</div>
-						<div className="challenge">
-							<h2>Monthly Challenge</h2>
-							{monthlySelectedChallenge && (
-								<p>{monthlySelectedChallenge.label}</p>
-							)}
+				<main className="dashboard">
+					<div className="dashboard">
+						<img
+							src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
+							alt="fit monster"
+						/>
+					</div>
+					<div className="challenges">
+						<div className="challengesTwo">
+							<div className="challenge">
+								<h2>Daily Challenge</h2>
+								{dailySelectedChallenge && (
+									<p>{dailySelectedChallenge.label}</p>
+								)}
+							</div>
+							<div className="challenge">
+								<h2>Weekly Challenge</h2>
+								{weeklySelectedChallenge && (
+									<p>{weeklySelectedChallenge.label}</p>
+								)}
+							</div>
+							<div className="challenge">
+								<h2>Monthly Challenge</h2>
+								{monthlySelectedChallenge && (
+									<p>{monthlySelectedChallenge.label}</p>
+								)}
+							</div>
 						</div>
 					</div>
-				</div>
-			</main>
+				</main>
+			</div>
 		</>
 	);
 }

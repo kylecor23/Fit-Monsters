@@ -9,6 +9,9 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 	const [isGoalCompleted, setGoalCompleted] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [overlayImage, setOverlayImage] = useState("");
+	const [fitnessPoints, setFitnessPoints] = useState(5);
+	const [healthPoints, setHealthPoints] = useState(5);
+	const [mindPoints, setMindPoints] = useState(5);
 
 	useEffect(() => {
 		// Determine overlay image based on goal type
@@ -50,6 +53,44 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 		setGoalCompleted(currentGoalValue);
 	}, [goalType, steps, workout, calories, meditation, weight, journal]);
 
+	useEffect(() => {
+		if (isGoalCompleted) {
+			// Increment points immediately if the goal is completed
+			switch (goalType) {
+				case "fitness":
+					setFitnessPoints((prevPoints) => prevPoints + 1);
+					break;
+				case "health":
+					setHealthPoints((prevPoints) => prevPoints + 1);
+					break;
+				case "mind":
+					setMindPoints((prevPoints) => prevPoints + 1);
+					break;
+				default:
+					break;
+			}
+		} else {
+			// Check if the goal is not completed and adjust points at the end of the day
+			const interval = setInterval(() => {
+				switch (goalType) {
+					case "fitness":
+						setFitnessPoints((prevPoints) => Math.max(prevPoints - 1, 0));
+						break;
+					case "health":
+						setHealthPoints((prevPoints) => Math.max(prevPoints - 1, 0));
+						break;
+					case "mind":
+						setMindPoints((prevPoints) => Math.max(prevPoints - 1, 0));
+						break;
+					default:
+						break;
+				}
+			}, 24 * 60 * 60 * 1000); // Check every 24 hours
+
+			return () => clearInterval(interval);
+		}
+	}, [isGoalCompleted]);
+
 	const openModal = () => {
 		setShowModal(true);
 	};
@@ -70,6 +111,14 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 				</div>
 				<p>
 					{goalType} Goal Completed: {isGoalCompleted ? "Yes" : "No"}
+				</p>
+				<p>
+					Current Goal Points:{" "}
+					{goalType === "fitness"
+						? fitnessPoints
+						: goalType === "health"
+						? healthPoints
+						: mindPoints}
 				</p>
 			</div>
 			{showModal && <Modal onClose={closeModal}>{children}</Modal>}
