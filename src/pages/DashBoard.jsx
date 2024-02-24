@@ -5,10 +5,14 @@ import StatsContext from "../components/StatsContex";
 import StepsInputField from "../components/StatInput";
 import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";
-import { faGhost } from "@fortawesome/free-solid-svg-icons";
+import {
+	faGhost,
+	faChartLine,
+	faScroll,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine } from "@fortawesome/free-solid-svg-icons";
-import { faScroll } from "@fortawesome/free-solid-svg-icons";
+
+import SideNav from "../components/AsideNav";
 
 export default function DashBoard() {
 	const { steps, calories, meditation, journal } = useContext(StatsContext);
@@ -30,27 +34,9 @@ export default function DashBoard() {
 	return (
 		<>
 			<div className="container">
-				<aside className="nav">
-					<header>
-						<h1>Fit Monsters</h1>
-					</header>
-					<ul>
-						<li>
-							<FontAwesomeIcon icon={faGhost} />
-							<Link to="/dashboard">Home</Link>
-						</li>
-						<li>
-							<FontAwesomeIcon icon={faChartLine} />
-							<Link to="/stats">Stats</Link>
-						</li>
-						<li>
-							<FontAwesomeIcon icon={faScroll} />
-							<Link to="/challenges">Challenges</Link>
-						</li>
-					</ul>
-				</aside>
+				<SideNav />
 				<main className="dashboard">
-					<div className="dasboard">
+					<div className="monster">
 						<img
 							src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
 							alt="fit monster"

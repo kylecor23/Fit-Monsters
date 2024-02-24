@@ -55,7 +55,6 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 
 	useEffect(() => {
 		if (isGoalCompleted) {
-			// Increment points immediately if the goal is completed
 			switch (goalType) {
 				case "fitness":
 					setFitnessPoints((prevPoints) => prevPoints + 1);
@@ -85,7 +84,7 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 					default:
 						break;
 				}
-			}, 24 * 60 * 60 * 1000); // Check every 24 hours
+			}, 24 * 60 * 60 * 1000);
 
 			return () => clearInterval(interval);
 		}
@@ -109,17 +108,6 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 						)}
 					</div>
 				</div>
-				<p>
-					{goalType} Goal Completed: {isGoalCompleted ? "Yes" : "No"}
-				</p>
-				<p>
-					Current Goal Points:{" "}
-					{goalType === "fitness"
-						? fitnessPoints
-						: goalType === "health"
-						? healthPoints
-						: mindPoints}
-				</p>
 			</div>
 			{showModal && <Modal onClose={closeModal}>{children}</Modal>}
 		</div>

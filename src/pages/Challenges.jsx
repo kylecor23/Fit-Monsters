@@ -3,10 +3,7 @@ import Popup from "../components/popup-menu";
 import { Link } from "react-router-dom";
 import StatsContext from "../components/StatsContex";
 import { pickItemBasedOnDate } from "../components/utils";
-import { faGhost } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine } from "@fortawesome/free-solid-svg-icons";
-import { faScroll } from "@fortawesome/free-solid-svg-icons";
+import SideNav from "../components/AsideNav";
 
 const challenges = [
 	{
@@ -77,7 +74,7 @@ const getIsChallengeCompleted = (selectedChallenge, steps) => {
 };
 
 export default function ChallengePage() {
-	const { steps, workout, calories, meditation, weight } =
+	const { steps, workout, calories, meditation, weight, journal } =
 		useContext(StatsContext);
 
 	const [dailySelectedChallenge, setDailySelectedChallenge] = useState(
@@ -126,25 +123,7 @@ export default function ChallengePage() {
 	return (
 		<>
 			<div className="container">
-				<aside className="nav">
-					<header>
-						<h1>Fit Monsters</h1>
-					</header>
-					<ul>
-						<li>
-							<FontAwesomeIcon icon={faGhost} />
-							<Link to="/dashboard">Home</Link>
-						</li>
-						<li>
-							<FontAwesomeIcon icon={faChartLine} />
-							<Link to="/stats">Stats</Link>
-						</li>
-						<li>
-							<FontAwesomeIcon icon={faScroll} />
-							<Link to="/challenges">Challenges</Link>
-						</li>
-					</ul>
-				</aside>
+				<SideNav />
 
 				<main className="dashboard">
 					<div className="dashboard">

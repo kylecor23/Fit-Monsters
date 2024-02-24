@@ -2,11 +2,12 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	background-color: #fefffe;
 }
 
 body {
 	font-family: Arial, sans-serif;
-	background-color: #f0f0f0;
+	background-color: #fefffe;
 	color: #333;
 }
 
@@ -15,9 +16,10 @@ body {
 	width: 100%;
 	margin: 0 auto;
 	padding: 20px;
-	background-color: #fff;
+	background-color: #fefffe;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 header {
 	justify-content: space-between;
 	align-items: center;
@@ -27,13 +29,16 @@ header {
 h1 {
 	font-size: 2rem;
 	font-weight: bold;
+	color: gray;
 }
+
 .container {
 	display: flex;
 }
+
 aside {
-	background-color: white;
-	border: #030304;
+	background-color: #fefffe;
+	border: gray;
 	width: 200px;
 	padding: 20px;
 	margin: 10px;
@@ -44,7 +49,7 @@ nav {
 	padding: 10px;
 }
 
-.nav ul {
+/* .nav ul {
 	list-style: none;
 	padding: 0;
 }
@@ -54,26 +59,48 @@ nav {
 	padding: 10px;
 	font-size: larger;
 }
+
 .nav ul li:hover {
 	background-color: lightgray;
 }
+
 .nav ul li a {
 	text-decoration: none;
 	margin-left: 10px;
-}
+} */
 
-nav button {
-	background-color: #007bff;
-	color: #fff;
+.nav-button {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	background-color: transparent;
 	border: none;
-	padding: 10px 20px;
-	border-radius: 4px;
+	text-align: left;
+	font-size: larger;
+	font-family: "DIN Round", sans-serif;
+	color: gray;
 	cursor: pointer;
-	margin-left: 20px;
+	transition: background-color 0.3s ease, border-radius 0.3s ease; /* Add transition for smooth color change and border-radius change */
+	border-radius: 10px; /* Add border-radius to create rounded corners */
+}
+.nav-button .icon {
+	margin-right: 10px; /* Adjust the margin as needed */
+	background: 0, 0, 0, 0;
 }
 
-nav button:hover {
-	background-color: #0056b3;
+.nav-button:hover {
+	background-color: lightgray; /* Background color on hover */
+	border-radius: 15px; /* Increase border-radius on hover for a softer curve */
+}
+
+.nav-button.active {
+	background-color: rgba(
+		144,
+		238,
+		144,
+		0.5
+	); /* Transparent light green for active page */
+	border-radius: 15px; /* Maintain border-radius for active page */
 }
 
 .overlay {
@@ -89,28 +116,6 @@ nav button:hover {
 	z-index: 1000;
 }
 
-/* .popup {
-	background-color: #fff;
-	border: 1px solid #ccc;
-	padding: 20px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	font-size: 1rem;
-}
-
-.popup ul {
-	list-style: none;
-	padding: 0;
-}
-
-.popup li {
-	margin-bottom: 10px;
-}
-
-.popup a {
-	text-decoration: none;
-	color: #333;
-} */
-
 .main {
 	display: flex;
 	margin-top: 20px;
@@ -120,7 +125,7 @@ nav button:hover {
 }
 
 .section2 {
-	background-color: #fff;
+	background-color: #fefffe;
 	padding: 20px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	margin-top: 20px;
@@ -169,6 +174,7 @@ button {
 button:hover {
 	background-color: #0056b3;
 }
+
 /* Add a semi-transparent background overlay */
 .overlay {
 	position: fixed;
@@ -184,12 +190,12 @@ button:hover {
 }
 
 /* Style the popup content */
-.popup {
-	background-color: #fff;
+/* .popup {
+	background-color: #fefffe;
 	border: 1px solid #ccc;
 	padding: 20px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	font-size: 20px;
+	font-size: 1rem;
 }
 
 .popup ul {
@@ -204,7 +210,7 @@ button:hover {
 .popup a {
 	text-decoration: none;
 	color: #333;
-}
+} */
 
 /* Add a CSS rule to make the overlay visible when it has the "active" class */
 .overlay.active {
@@ -224,11 +230,13 @@ header {
 .nav button {
 	margin-left: auto;
 }
+
 .imageProperty {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
+
 .imageCarousel {
 	width: auto;
 	height: 450px;
@@ -245,6 +253,21 @@ header {
 	flex-grow: 1;
 }
 
+.monster {
+	max-height: 70vh; /* Set the maximum height of the monster container */
+	width: 100%; /* Ensure the container fills the available width */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden; /* Hide any overflow to prevent image spillover */
+}
+
+.monster img {
+	width: auto; /* Allow the image width to adjust based on its aspect ratio */
+	height: 100%; /* Ensure the image fills the container vertically */
+	object-fit: contain; /* Maintain aspect ratio and fit within the container */
+}
+
 .challenges {
 	display: flex;
 	justify-content: space-evenly;
@@ -253,7 +276,6 @@ header {
 }
 
 .challengesTwo {
-	background-color: papayawhip;
 	margin: 10px;
 	display: flex;
 	flex-direction: row;
@@ -278,7 +300,7 @@ header {
 .modalContainer {
 	width: 80%;
 	max-width: 400px;
-	background-color: white;
+	background-color: #fefffe;
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -286,11 +308,12 @@ header {
 }
 
 .modal-content {
-	background-color: white;
+	background-color: #fefffe;
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
+
 .modalButton {
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -299,7 +322,8 @@ header {
 	margin-left: auto; /* Center align horizontally */
 	margin-right: auto;
 }
-/*animation testing*/
+
+/* Animation testing */
 .progress-container {
 	position: relative;
 	width: 180px;
@@ -328,6 +352,7 @@ header {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 2;
+	background: 0, 0, 0, 0;
 }
 
 .progress:hover {
@@ -343,7 +368,7 @@ header {
 	}
 }
 
-/* Journal css  */
+/* Journal CSS */
 .journal {
 	background-color: #fff;
 	padding: 20px;
@@ -387,4 +412,23 @@ textarea {
 	box-shadow: none;
 	background-color: #f9f6f1;
 	color: #333;
+}
+
+@media screen and (max-width: 768px) {
+	.container {
+		flex-direction: column;
+	}
+	aside {
+		width: 100%;
+		border-right: none;
+		border-bottom: 1px solid gray;
+		margin-bottom: 10px;
+	}
+	.dashboard {
+		align-items: center;
+	}
+	.challenges {
+		flex-direction: row;
+		align-items: center;
+	}
 }
