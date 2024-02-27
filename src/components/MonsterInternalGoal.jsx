@@ -1,4 +1,3 @@
-// MonsterInternalGoalTracker.jsx
 import React, { useContext, useState, useEffect } from "react";
 import Modal from "./Modal";
 import { StatsContext } from "../components/StatsTracker";
@@ -90,6 +89,30 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 		}
 	}, [isGoalCompleted]);
 
+	useEffect(() => {
+		const maxPoints = 10;
+		let percentage;
+		switch (goalType) {
+			case "fitness":
+				percentage = (fitnessPoints / maxPoints) * 100;
+				break;
+			case "health":
+				percentage = (healthPoints / maxPoints) * 100;
+				break;
+			case "mind":
+				percentage = (mindPoints / maxPoints) * 100;
+				break;
+			default:
+				percentage = 0;
+				break;
+		}
+		console.log("Percentage:", percentage);
+		document.documentElement.style.setProperty(
+			"--percentage",
+			`${percentage}%`
+		);
+	}, [goalType, fitnessPoints, healthPoints, mindPoints]);
+
 	const openModal = () => {
 		setShowModal(true);
 	};
@@ -100,13 +123,14 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 
 	return (
 		<div>
-			<div onClick={openModal}>
-				<div className="progress-container">
-					<div className="progress">
-						{overlayImage && (
-							<img className="overlay-image" src={overlayImage} alt="Overlay" />
-						)}
+			<div className={`${goalType} progress-container`} onClick={openModal}>
+				<div className="progress">
+					<div className="progress-filled-wrapper">
+						<div className="progress-filled"></div>
 					</div>
+					{overlayImage && (
+						<img className="overlay-image" src={overlayImage} alt="Overlay" />
+					)}
 				</div>
 			</div>
 			{showModal && <Modal onClose={closeModal}>{children}</Modal>}

@@ -80,17 +80,17 @@ nav {
 	font-family: "DIN Round", sans-serif;
 	color: gray;
 	cursor: pointer;
-	transition: background-color 0.3s ease, border-radius 0.3s ease; /* Add transition for smooth color change and border-radius change */
-	border-radius: 10px; /* Add border-radius to create rounded corners */
+	transition: background-color 0.3s ease, border-radius 0.3s ease;
+	border-radius: 10px;
 }
 .nav-button .icon {
-	margin-right: 10px; /* Adjust the margin as needed */
+	margin-right: 10px;
 	background: 0, 0, 0, 0;
 }
 
 .nav-button:hover {
-	background-color: lightgray; /* Background color on hover */
-	border-radius: 15px; /* Increase border-radius on hover for a softer curve */
+	background-color: lightgray;
+	border-radius: 15px;
 }
 
 .nav-button.active {
@@ -100,7 +100,7 @@ nav {
 		144,
 		0.5
 	); /* Transparent light green for active page */
-	border-radius: 15px; /* Maintain border-radius for active page */
+	border-radius: 15px;
 }
 
 .overlay {
@@ -163,7 +163,7 @@ li {
 }
 
 button {
-	background-color: #007bff;
+	background-color: rgba(144, 238, 144, 0.5);
 	color: #fff;
 	border: none;
 	padding: 10px 20px;
@@ -175,7 +175,6 @@ button:hover {
 	background-color: #0056b3;
 }
 
-/* Add a semi-transparent background overlay */
 .overlay {
 	position: fixed;
 	top: 0;
@@ -183,7 +182,7 @@ button:hover {
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0, 0.5);
-	display: none; /* Initially hidden */
+	display: none;
 	justify-content: center;
 	align-items: center;
 	z-index: 1000; /* Ensure it's on top of other elements */
@@ -254,18 +253,18 @@ header {
 }
 
 .monster {
-	max-height: 70vh; /* Set the maximum height of the monster container */
-	width: 100%; /* Ensure the container fills the available width */
+	max-height: 70vh;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	overflow: hidden; /* Hide any overflow to prevent image spillover */
+	overflow: hidden;
 }
 
 .monster img {
-	width: auto; /* Allow the image width to adjust based on its aspect ratio */
-	height: 100%; /* Ensure the image fills the container vertically */
-	object-fit: contain; /* Maintain aspect ratio and fit within the container */
+	width: auto;
+	height: 100%;
+	object-fit: contain;
 }
 
 .challenges {
@@ -319,31 +318,24 @@ header {
 	margin-top: 10px;
 	display: flex;
 	flex-direction: column;
-	margin-left: auto; /* Center align horizontally */
+	margin-left: auto;
 	margin-right: auto;
+	background-color: lightgray;
+	color: #000000;
+	width: 100%;
+	align-items: center;
+	font-family: sans-serif;
+	font-weight: 500;
+	font-size: large;
+	border-radius: 15px;
+}
+
+.modalButton:hover {
+	background-color: rgba(144, 238, 144, 0.5);
+	border-radius: 15px;
 }
 
 /* Animation testing */
-.progress-container {
-	position: relative;
-	width: 180px;
-	height: 180px;
-	margin: 10px;
-}
-
-.progress {
-	width: 100%;
-	height: 100%;
-	border: 6px solid #262626;
-	border-radius: 50%;
-	background: url(https://image.ibb.co/fmHm66/wave.png);
-	background-position: 0px 350px;
-	background-repeat: repeat-x;
-	animation: filling 10s ease-in infinite;
-	position: relative;
-	z-index: 1;
-}
-
 .overlay-image {
 	width: 50%;
 	height: 50%;
@@ -354,18 +346,47 @@ header {
 	z-index: 2;
 	background: 0, 0, 0, 0;
 }
+.progress {
+	position: relative;
+	width: 180px;
+	height: 180px;
+	margin: 10px;
+	border: 6px solid #262626;
+	border-radius: 50%;
+	background: transparent;
+	overflow: hidden;
+}
+
+.progress-filled-wrapper {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: var(--percentage);
+	background-color: #007bff;
+	border-radius: 0 0 50% 50%;
+	overflow: hidden;
+}
+
+.progress-filled {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+@keyframes fillAnimation {
+	from {
+		width: 0%;
+	}
+	to {
+		width: calc(100% * var(--percentage));
+	}
+}
 
 .progress:hover {
 	box-shadow: 0 0 0 3px #fff, 0 20px 35px rgba(0, 0, 0, 1);
-}
-
-@keyframes filling {
-	50% {
-		background-position: 6500px 0px;
-	}
-	100% {
-		background-position: 6000px 350px;
-	}
 }
 
 /* Journal CSS */
