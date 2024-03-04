@@ -9,10 +9,12 @@ const StatsProvider = ({ children }) => {
 	const [journal, setJournal] = useState("");
 
 	const updateStats = (activityName, newValue) => {
+		console.log("Updating stats:", { activityName, newValue });
 		if (activityName === "calories") {
 			setCalories(newValue);
 		}
 		if (activityName === "steps") {
+			console.log("Updating steps:", newValue);
 			setSteps(newValue);
 		}
 		if (activityName === "weight") {

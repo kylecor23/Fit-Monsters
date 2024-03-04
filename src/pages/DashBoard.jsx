@@ -5,12 +5,6 @@ import StatsContext from "../components/StatsContex";
 import StepsInputField from "../components/StatInput";
 import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";
-import {
-	faGhost,
-	faChartLine,
-	faScroll,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import SideNav from "../components/AsideNav";
 
@@ -18,7 +12,6 @@ export default function DashBoard() {
 	const { steps, calories, meditation, journal } = useContext(StatsContext);
 	const [showJournalModal, setShowJournalModal] = useState(false);
 	const [showMeditationModal, setShowMeditationModal] = useState(false);
-
 	const toggleJournalModal = () => {
 		setShowJournalModal(!showJournalModal);
 	};

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Popup from "../components/popup-menu";
 import { Link } from "react-router-dom";
 import StatsContext from "../components/StatsContex";
@@ -74,8 +74,7 @@ const getIsChallengeCompleted = (selectedChallenge, steps) => {
 };
 
 export default function ChallengePage() {
-	const { steps, workout, calories, meditation, weight, journal } =
-		useContext(StatsContext);
+	const { steps } = useContext(StatsContext);
 
 	const [dailySelectedChallenge, setDailySelectedChallenge] = useState(
 		pickItemBasedOnDate(challenges, "daily")
@@ -120,6 +119,8 @@ export default function ChallengePage() {
 		}
 	}, [monthlySelectedChallenge, steps]);
 
+	console.log("Steps:", steps);
+
 	return (
 		<>
 			<div className="container">
@@ -153,6 +154,15 @@ export default function ChallengePage() {
 								)}
 							</div>
 						</div>
+					</div>
+				</main>
+			</div>
+			<div className="container">
+				<SideNav />
+
+				<main className="dashboard">
+					<div className="dashboard">
+						<h2>Steps Count: {steps}</h2>
 					</div>
 				</main>
 			</div>

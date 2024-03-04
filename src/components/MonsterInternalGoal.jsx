@@ -41,14 +41,13 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 				break;
 			case "mind":
 				currentGoalValue = meditation >= 1 || journal !== "";
-				console.log("Mind goal updated:", currentGoalValue);
+
 				break;
 			default:
 				currentGoalValue = false;
 				break;
 		}
 
-		console.log("Setting goal completion status:", currentGoalValue);
 		setGoalCompleted(currentGoalValue);
 	}, [goalType, steps, workout, calories, meditation, weight, journal]);
 
@@ -106,7 +105,7 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 				percentage = 0;
 				break;
 		}
-		console.log("Percentage:", percentage);
+
 		document.documentElement.style.setProperty(
 			"--percentage",
 			`${percentage}%`
