@@ -5,6 +5,7 @@ import {
 	faChartLine,
 	faScroll,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function SideNav() {
 	const [activePage, setActivePage] = useState(() => {
@@ -17,9 +18,11 @@ export default function SideNav() {
 		localStorage.setItem("activePage", activePage);
 	}, [activePage]);
 
+	const navigate = useNavigate();
+
 	const navigateTo = (route) => {
-		window.location.href = route;
-		setActivePage(route); // Update activePage when navigating manually
+		navigate(route);
+		setActivePage(route);
 	};
 
 	return (

@@ -95,7 +95,6 @@ export default function ChallengePage() {
 		);
 
 		if (isChallengeCompleted) {
-			console.log(`${dailySelectedChallenge.label} completed!`);
 		}
 	}, [dailySelectedChallenge, steps]);
 
@@ -105,7 +104,6 @@ export default function ChallengePage() {
 			steps
 		);
 		if (isChallengeCompleted) {
-			console.log(`${weeklySelectedChallenge.label} completed!`);
 		}
 	}, [weeklySelectedChallenge, steps]);
 
@@ -115,11 +113,12 @@ export default function ChallengePage() {
 			steps
 		);
 		if (isChallengeCompleted) {
-			console.log(`${monthlySelectedChallenge.label} completed!`);
 		}
 	}, [monthlySelectedChallenge, steps]);
 
-	console.log("Steps:", steps);
+	useEffect(() => {
+		console.log("Steps:", steps);
+	});
 
 	return (
 		<>
@@ -154,15 +153,6 @@ export default function ChallengePage() {
 								)}
 							</div>
 						</div>
-					</div>
-				</main>
-			</div>
-			<div className="container">
-				<SideNav />
-
-				<main className="dashboard">
-					<div className="dashboard">
-						<h2>Steps Count: {steps}</h2>
 					</div>
 				</main>
 			</div>
