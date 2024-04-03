@@ -5,24 +5,28 @@ import {
 	faChartLine,
 	faScroll,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SideNav() {
+	const location = useLocation();
+
 	const [activePage, setActivePage] = useState(() => {
-		// Initialize activePage state with the value from localStorage, if available
 		return localStorage.getItem("activePage") || "";
 	});
 
 	useEffect(() => {
-		// Update localStorage when activePage state changes
+		setActivePage(location.pathname);
+	}, [location]);
+
+	useEffect(() => {
 		localStorage.setItem("activePage", activePage);
 	}, [activePage]);
 
 	const navigate = useNavigate();
 
 	const navigateTo = (route) => {
-		navigate(route);
 		setActivePage(route);
+		navigate(route);
 	};
 
 	return (

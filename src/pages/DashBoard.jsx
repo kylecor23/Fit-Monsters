@@ -5,7 +5,7 @@ import StatsContext from "../components/StatsContex";
 import StepsInputField from "../components/StatInput";
 import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";
-
+import Monster from "../components/monster";
 import SideNav from "../components/AsideNav";
 
 export default function DashBoard() {
@@ -15,7 +15,9 @@ export default function DashBoard() {
 	const toggleJournalModal = () => {
 		setShowJournalModal(!showJournalModal);
 	};
-
+	const handleCloseJournalModal = () => {
+		setShowJournalModal(false);
+	};
 	const toggleMeditationModal = () => {
 		setShowMeditationModal(!showMeditationModal);
 	};
@@ -30,12 +32,10 @@ export default function DashBoard() {
 				<SideNav />
 				<main className="dashboard">
 					<div className="monster">
-						<img
-							src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
-							alt="fit monster"
-						/>
+						<h1>hey</h1>
+						<Monster />
 					</div>
-					<div className="challenges">
+					<div className="statusBar">
 						<MonstersInternalGoalTracker
 							goalType="fitness"
 							progress={fitnessProgress}

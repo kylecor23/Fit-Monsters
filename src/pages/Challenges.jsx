@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import StatsContext from "../components/StatsContex";
 import { pickItemBasedOnDate } from "../components/utils";
 import SideNav from "../components/AsideNav";
+import Monster from "../components/monster";
 
 const challenges = [
 	{
@@ -12,12 +13,17 @@ const challenges = [
 		type: "daily",
 		subtype: "steps",
 	},
-	{ label: "Do 50 push-ups", number: 50, type: "daily", subtype: "workout" },
 	{
-		label: "complete a HIIT workout",
-		number: 1,
+		label: "walk 10000 steps",
+		number: 10000,
 		type: "daily",
 		subtype: "steps",
+	},
+	{
+		label: "Meditat for 5 miniutes",
+		number: 1,
+		type: "daily",
+		subtype: "meditation",
 	},
 	{
 		label: "walk a total of 20,000 steps",
@@ -26,16 +32,16 @@ const challenges = [
 		subtype: "steps",
 	},
 	{
-		label: "complete 3 workouts",
+		label: "meditate for a total of 30 minutes",
 		number: 3,
 		type: "weekly",
-		subtype: "steps",
+		subtype: "meditation",
 	},
 	{
-		label: "read 3 hours this week",
+		label: "meditate for a total of 30 minutes",
 		number: 3,
 		type: "weekly",
-		subtype: "mental",
+		subtype: "meditation",
 	},
 	{
 		label: "walk 50km",
@@ -57,14 +63,16 @@ const challenges = [
 	},
 ];
 
-const getIsChallengeCompleted = (selectedChallenge, steps) => {
+const getIsChallengeCompleted = (selectedChallenge, steps, meditation) => {
 	let isChallengeCompleted = false;
 
 	switch (selectedChallenge?.subtype) {
 		case "steps":
 			isChallengeCompleted = steps >= selectedChallenge.number;
 			break;
-
+		case "meditation":
+			isChallengeCompleted = meditation >= selectedChallenge.number;
+			break;
 		default:
 			// set isChallengeCompleted to false
 			break;
@@ -73,8 +81,27 @@ const getIsChallengeCompleted = (selectedChallenge, steps) => {
 	return isChallengeCompleted;
 };
 
+const calculateProgress = (selectedChallenge, steps, meditation) => {
+	const currentValue =
+		selectedChallenge.subtype === "steps" ? steps : meditation;
+
+	if (
+		selectedChallenge.subtype === "steps" ||
+		selectedChallenge.subtype === "meditation"
+	) {
+		return Math.min((currentValue / selectedChallenge.number) * 100, 100);
+	} else if (selectedChallenge.subtype === "workout") {
+		// Assuming workout challenges are counted in numbers completed
+		return Math.min((currentValue / selectedChallenge.number) * 100, 100);
+	} else if (selectedChallenge.subtype === "mental") {
+		// Assuming mental challenges are counted in hours completed
+		return Math.min((currentValue / selectedChallenge.number) * 100, 100);
+	}
+	return 0;
+};
+
 export default function ChallengePage() {
-	const { steps } = useContext(StatsContext);
+	const { steps, meditation } = useContext(StatsContext);
 
 	const [dailySelectedChallenge, setDailySelectedChallenge] = useState(
 		pickItemBasedOnDate(challenges, "daily")
@@ -91,66 +118,96 @@ export default function ChallengePage() {
 	useEffect(() => {
 		const isChallengeCompleted = getIsChallengeCompleted(
 			dailySelectedChallenge,
-			steps
+			steps,
+			meditation
 		);
 
 		if (isChallengeCompleted) {
 		}
-	}, [dailySelectedChallenge, steps]);
+	}, [dailySelectedChallenge, steps, meditation]);
 
 	useEffect(() => {
 		const isChallengeCompleted = getIsChallengeCompleted(
 			weeklySelectedChallenge,
-			steps
+			steps,
+			meditation
 		);
+
 		if (isChallengeCompleted) {
 		}
-	}, [weeklySelectedChallenge, steps]);
+	}, [weeklySelectedChallenge, steps, meditation]);
 
 	useEffect(() => {
 		const isChallengeCompleted = getIsChallengeCompleted(
 			monthlySelectedChallenge,
-			steps
+			steps,
+			meditation
 		);
+
 		if (isChallengeCompleted) {
 		}
-	}, [monthlySelectedChallenge, steps]);
-
-	useEffect(() => {
-		console.log("Steps:", steps);
-	});
+	}, [monthlySelectedChallenge, steps, meditation]);
 
 	return (
 		<>
 			<div className="container">
 				<SideNav />
 
-				<main className="dashboard">
-					<div className="dashboard">
-						<img
-							src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
-							alt="fit monster"
-						/>
-					</div>
-					<div className="challenges">
-						<div className="challengesTwo">
-							<div className="challenge">
-								<h2>Daily Challenge</h2>
-								{dailySelectedChallenge && (
-									<p>{dailySelectedChallenge.label}</p>
-								)}
-							</div>
-							<div className="challenge">
-								<h2>Weekly Challenge</h2>
-								{weeklySelectedChallenge && (
-									<p>{weeklySelectedChallenge.label}</p>
-								)}
-							</div>
-							<div className="challenge">
-								<h2>Monthly Challenge</h2>
-								{monthlySelectedChallenge && (
-									<p>{monthlySelectedChallenge.label}</p>
-								)}
+				<main className="dashboardChallenges">
+					<div className="Challengesdashboard">
+						<div className="monster">
+							<Monster />
+							{/* <img
+								src="https://media.istockphoto.com/id/1486708389/vector/cute-ghost-mascot-illustration-doing-weightlifting-illustration-of-a-ghost-doing-sports.jpg?s=612x612&w=0&k=20&c=e1aWV1pywLvXYqJcgiBz8zw1YciDGEvZ8cLHoE6uUR0="
+								alt="fit monster"
+							/> */}
+						</div>
+						<div className="challenges">
+							<div className="challengesTwo">
+								{[
+									{
+										challenge: dailySelectedChallenge,
+										type: "Daily",
+									},
+									{
+										challenge: weeklySelectedChallenge,
+										type: "Weekly",
+									},
+									{
+										challenge: monthlySelectedChallenge,
+										type: "Monthly",
+									},
+								].map(({ challenge, type }) => {
+									const progressPercentage = Math.round(
+										calculateProgress(challenge, steps, meditation)
+									);
+
+									return (
+										<div className="challengeBlock" key={type}>
+											<h2>{`${type} Challenge`}</h2>
+											{challenge && (
+												<>
+													<p>{challenge.label}</p>
+													<div className="progressContainer">
+														<progress
+															className="progressBarChallanges"
+															value={calculateProgress(
+																challenge,
+																steps,
+																meditation
+															)}
+															max="100"
+														></progress>
+
+														<span className="progressPercentage">
+															{progressPercentage}%
+														</span>
+													</div>
+												</>
+											)}
+										</div>
+									);
+								})}
 							</div>
 						</div>
 					</div>

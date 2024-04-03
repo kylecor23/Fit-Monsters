@@ -37,6 +37,9 @@ const JournalEntryInput = ({ onClose }) => {
 						Submit Journal Entry
 					</button>
 				</form>
+				<button className="modalButton" onClick={onClose}>
+					Close
+				</button>
 			</div>
 		</Modal>
 	);

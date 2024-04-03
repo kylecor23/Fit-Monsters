@@ -78,7 +78,8 @@ const MeditationTimer = ({ showModal, onClose }) => {
 	const handleTimerComplete = () => {
 		setIsTimerStarted(false);
 		onClose();
-		updateStats("meditation", duration);
+		const actualDuration = duration - Math.floor(timer / 60);
+		updateStats("meditation", actualDuration);
 	};
 
 	const ringFillPercentage = (timer / (duration * 60)) * 100;

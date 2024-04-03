@@ -34,6 +34,9 @@ h1 {
 
 .container {
 	display: flex;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: visible;
 }
 
 aside {
@@ -247,37 +250,110 @@ header {
 	align-items: center;
 	flex-grow: 1;
 }
+.statusBar {
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+	margin: 10px;
+	overflow-y: auto;
+}
 
 .monster {
 	max-height: 70vh;
+	max-width: 50%;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
+	flex: 0 0 auto;
 }
 
 .monster img {
-	width: auto;
-	height: 100%;
+	width: 100%;
+	height: auto;
 	object-fit: contain;
 }
-
+.Challengesdashboard {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start; /* Align items at the top */
+	justify-content: space-between; /* Add space between the elements */
+}
 .challenges {
 	display: flex;
 	justify-content: space-evenly;
 	width: 100%;
 	margin: 10px;
+	overflow-y: auto;
+}
+.challengeBlock {
+	flex: 1; /* Each challenge block takes equal width */
+	margin: 10px; /* Add spacing between challenge blocks */
+	display: flex; /* Use flexbox to align items */
+	flex-direction: column; /* Stack items vertically */
+	justify-content: flex-start; /* Align items to the top */
 }
 
+.challengeBlock h2 {
+	margin-bottom: 5px;
+}
+
+.challengeBlock p {
+	margin-bottom: 10px;
+}
 .challengesTwo {
 	margin: 10px;
-	display: flex;
+	display: block;
 	flex-direction: row;
 	justify-content: space-around;
-	align-items: center;
+	align-items: flex-start; /* Ensures even alignment */
 	width: 80%;
 	margin: auto;
+	text-align: center;
+}
+
+.progressBarChallanges {
+	position: relative;
+	width: 85%;
+	margin-top: auto;
+	border: 4px solid lightgray;
+	border-radius: 50%;
+	background: transparent;
+	overflow: hidden;
+	border-radius: 25px;
+}
+
+.progressBarChallanges-filled-wrapper {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: var(--percentage);
+	background-color: #007bff; /* Change this color to the shade of blue you prefer */
+	overflow: hidden;
+}
+
+.progressBarChallanges-filled {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 25px;
+}
+.progressContainer:hover .progressPercentage {
+	opacity: 1;
+}
+.progressPercentage {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem; /* Adjust the font size to your preference */
+	font-weight: bold; /* Make the text bold */
+	opacity: 0;
+	transition: opacity 1s ease;
+	z-index: 1; /* Ensure it appears above the progress bar */
 }
 
 .modal {
@@ -351,17 +427,7 @@ header {
 	border-radius: 50%;
 	background: transparent;
 	overflow: hidden;
-}
-
-.progress-filled-wrapper {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: var(--percentage);
-	background-color: #007bff;
-	border-radius: 0 0 50% 50%;
-	overflow: hidden;
+	transition: box-shadow 0.3s ease;
 }
 
 .progress-filled {
@@ -369,20 +435,16 @@ header {
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
+	height: var(--percentage);
+	background-color: rgba(144, 238, 144);
+	border-radius: 0 0 50% 50%;
+	overflow: hidden;
+	animation: bubbleAnimation 1s infinite alternate;
 }
-
-@keyframes fillAnimation {
-	from {
-		width: 0%;
-	}
-	to {
-		width: calc(100% * var(--percentage));
-	}
+@keyframes bubbleAnimation {
 }
-
 .progress:hover {
-	box-shadow: 0 0 0 3px #fff, 0 20px 35px rgba(0, 0, 0, 1);
+	box-shadow: 0 0 20px 10px #fff, 0 20px 35px rgba(0, 0, 0, 1);
 }
 
 /* Journal CSS */
@@ -419,7 +481,7 @@ header {
 }
 
 textarea {
-	width: calc(100% - 40px);
+	width: 100%;
 	height: calc(100% - 40px);
 	resize: none;
 	border: none;

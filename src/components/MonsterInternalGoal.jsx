@@ -5,14 +5,24 @@ import { StatsContext } from "../components/StatsTracker";
 function MonstersInternalGoalTracker({ goalType, progress, children }) {
 	const { steps, workout, calories, meditation, weight, journal } =
 		useContext(StatsContext);
-	const [isGoalCompleted, setGoalCompleted] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [overlayImage, setOverlayImage] = useState("");
 	const [fitnessPoints, setFitnessPoints] = useState(5);
 	const [healthPoints, setHealthPoints] = useState(5);
 	const [mindPoints, setMindPoints] = useState(5);
+	const [isGoalCompleted, setGoalCompleted] = useState(false);
 
 	useEffect(() => {
+		console.log("Goal Type:", goalType);
+		console.log("Stats:", {
+			steps,
+			workout,
+			calories,
+			meditation,
+			weight,
+			journal,
+		});
+
 		// Determine overlay image based on goal type
 		switch (goalType) {
 			case "fitness":
@@ -41,16 +51,17 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 				break;
 			case "mind":
 				currentGoalValue = meditation >= 1 || journal !== "";
-
 				break;
 			default:
 				currentGoalValue = false;
 				break;
 		}
 
+		console.log("Is Goal Completed:", currentGoalValue);
 		setGoalCompleted(currentGoalValue);
 	}, [goalType, steps, workout, calories, meditation, weight, journal]);
 
+	// Adjust fitnessPoints, healthPoints, mindPoints based on completion
 	useEffect(() => {
 		if (isGoalCompleted) {
 			switch (goalType) {
@@ -67,7 +78,6 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 					break;
 			}
 		} else {
-			// Check if the goal is not completed and adjust points at the end of the day
 			const interval = setInterval(() => {
 				switch (goalType) {
 					case "fitness":
@@ -88,51 +98,43 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 		}
 	}, [isGoalCompleted]);
 
-	useEffect(() => {
-		const maxPoints = 10;
-		let percentage;
+	// Add this function to get the points for each goal type
+	const getPointsForGoalType = (goalType) => {
 		switch (goalType) {
 			case "fitness":
-				percentage = (fitnessPoints / maxPoints) * 100;
-				break;
+				return fitnessPoints;
 			case "health":
-				percentage = (healthPoints / maxPoints) * 100;
-				break;
+				return healthPoints;
 			case "mind":
-				percentage = (mindPoints / maxPoints) * 100;
-				break;
+				return mindPoints;
 			default:
-				percentage = 0;
-				break;
+				return 0;
 		}
-
-		document.documentElement.style.setProperty(
-			"--percentage",
-			`${percentage}%`
-		);
-	}, [goalType, fitnessPoints, healthPoints, mindPoints]);
-
-	const openModal = () => {
-		setShowModal(true);
-	};
-
-	const closeModal = () => {
-		setShowModal(false);
 	};
 
 	return (
 		<div>
-			<div className={`${goalType} progress-container`} onClick={openModal}>
+			<div
+				className={`${goalType} progress-container`}
+				onClick={() => setShowModal(true)}
+			>
 				<div className="progress">
 					<div className="progress-filled-wrapper">
-						<div className="progress-filled"></div>
+						<div
+							className="progress-filled"
+							style={{
+								height: `${(getPointsForGoalType(goalType) / 10) * 100}%`, // Adjust based on max points
+							}}
+						></div>
 					</div>
 					{overlayImage && (
 						<img className="overlay-image" src={overlayImage} alt="Overlay" />
 					)}
 				</div>
 			</div>
-			{showModal && <Modal onClose={closeModal}>{children}</Modal>}
+			{showModal && (
+				<Modal onClose={() => setShowModal(false)}>{children}</Modal>
+			)}
 		</div>
 	);
 }
