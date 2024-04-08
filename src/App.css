@@ -260,13 +260,14 @@ header {
 
 .monster {
 	max-height: 70vh;
-	max-width: 50%;
+	max-width: 75%;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
 	flex: 0 0 auto;
+	flex-grow: 1;
 }
 
 .monster img {

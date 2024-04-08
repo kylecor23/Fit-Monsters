@@ -32,7 +32,6 @@ export default function DashBoard() {
 				<SideNav />
 				<main className="dashboard">
 					<div className="monster">
-						<h1>hey</h1>
 						<Monster />
 					</div>
 					<div className="statusBar">
