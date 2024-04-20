@@ -39,6 +39,7 @@ export default function DashBoard() {
 							goalType="fitness"
 							progress={fitnessProgress}
 						>
+							<Monster />
 							<StepsInputField activity="steps" />
 						</MonstersInternalGoalTracker>
 
@@ -46,6 +47,7 @@ export default function DashBoard() {
 							goalType="health"
 							progress={healthProgress}
 						>
+							<Monster />
 							<StepsInputField activity="calories" />
 							<StepsInputField activity="weight" />
 						</MonstersInternalGoalTracker>

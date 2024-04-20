@@ -553,6 +553,12 @@ textarea {
 	width: 100%;
 	box-sizing: border-box;
 }
+
+.modal .monster {
+	max-width: 100%;
+	max-height: 100%;
+	overflow: visible;
+}
 /* end test */
 
 @media screen and (max-width: 768px) {

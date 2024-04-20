@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import StatsContext from "./StatsContex";
+import Monster from "./monster";
 
 const StepsInputField = ({ activity, onClose }) => {
 	const { updateStats } = useContext(StatsContext);
@@ -18,18 +19,20 @@ const StepsInputField = ({ activity, onClose }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<label htmlFor={`${activity}Input`}>{`Enter ${activity}:`}</label>
-			<input
-				type="text"
-				id={`${activity}Input`}
-				value={value}
-				onChange={handleInputChange}
-			/>
-			<button className="modalButton" type="submit">
-				Submit
-			</button>
-		</form>
+		<div>
+			<form onSubmit={handleSubmit}>
+				<label htmlFor={`${activity}Input`}>{`Enter ${activity}:`}</label>
+				<input
+					type="text"
+					id={`${activity}Input`}
+					value={value}
+					onChange={handleInputChange}
+				/>
+				<button className="modalButton" type="submit">
+					Submit
+				</button>
+			</form>
+		</div>
 	);
 };
 

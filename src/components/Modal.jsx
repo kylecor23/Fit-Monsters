@@ -11,19 +11,23 @@ function Modal({ onClose, children }) {
 
 	useEffect(() => {
 		document.addEventListener("mousedown", handleOutsideClick);
-
 		return () => {
 			document.removeEventListener("mousedown", handleOutsideClick);
 		};
 	}, [onClose]);
 
+	// Extend children with a ref only if they need it
+	const enhancedChildren = React.Children.map(children, (child) => {
+		if (React.isValidElement(child) && child.props.needsRef) {
+			return React.cloneElement(child, { containerRef: modalRef });
+		}
+		return child;
+	});
+
 	return (
 		<div className="modal" style={{ zIndex: 9999 }}>
 			<div className="modalContainer" ref={modalRef}>
-				<div className="modalContent">
-					{children}
-					{/* <button onClick={onClose}>Close</button> */}
-				</div>
+				<div className="modalContent">{enhancedChildren}</div>
 			</div>
 		</div>
 	);
