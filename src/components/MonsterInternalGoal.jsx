@@ -13,16 +13,6 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 	const [isGoalCompleted, setGoalCompleted] = useState(false);
 
 	useEffect(() => {
-		console.log("Goal Type:", goalType);
-		console.log("Stats:", {
-			steps,
-			workout,
-			calories,
-			meditation,
-			weight,
-			journal,
-		});
-
 		// Determine overlay image based on goal type
 		switch (goalType) {
 			case "fitness":
@@ -57,7 +47,6 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 				break;
 		}
 
-		console.log("Is Goal Completed:", currentGoalValue);
 		setGoalCompleted(currentGoalValue);
 	}, [goalType, steps, workout, calories, meditation, weight, journal]);
 

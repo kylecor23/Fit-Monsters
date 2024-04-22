@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import StatsContext from "./StatsContex";
-import Monster from "./monster";
 
-const StepsInputField = ({ activity, onClose }) => {
+const StepsInputField = ({ activity, onClose, triggerJumpAnimation }) => {
 	const { updateStats } = useContext(StatsContext);
 	const [value, setValue] = useState("");
 
@@ -12,10 +11,11 @@ const StepsInputField = ({ activity, onClose }) => {
 	};
 
 	const handleSubmit = (event) => {
+		console.log("Submitting form...");
 		event.preventDefault();
-
-		updateStats(activity, parseInt(value, 10) || 0);
+		updateStats(activity, parseInt(value, 10) || 0); // Update stats context
 		setValue("");
+		triggerJumpAnimation();
 	};
 
 	return (

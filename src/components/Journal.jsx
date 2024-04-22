@@ -25,6 +25,7 @@ const JournalEntryInput = ({ onClose }) => {
 		localStorage.setItem("lastJournalEntry", journalEntry);
 		setLastEntry(journalEntry);
 		setJournalEntry("");
+		triggerJumpAnimation();
 		onClose();
 	};
 

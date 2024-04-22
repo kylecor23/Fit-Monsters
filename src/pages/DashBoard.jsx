@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useRef } from "react";
 import MonstersInternalGoalTracker from "../components/MonsterInternalGoal";
 import StatsContext from "../components/StatsContex";
 import StepsInputField from "../components/StatInput";
@@ -12,12 +11,22 @@ export default function DashBoard() {
 	const { steps, calories, meditation, journal } = useContext(StatsContext);
 	const [showJournalModal, setShowJournalModal] = useState(false);
 	const [showMeditationModal, setShowMeditationModal] = useState(false);
+	const monsterRef = useRef(); // Create a ref for the Monster component
+
+	const triggerJumpAnimation = () => {
+		if (monsterRef.current) {
+			monsterRef.current.handleJump(); // Call handleJump to trigger the jump animation
+		}
+	};
+
 	const toggleJournalModal = () => {
 		setShowJournalModal(!showJournalModal);
 	};
+
 	const handleCloseJournalModal = () => {
 		setShowJournalModal(false);
 	};
+
 	const toggleMeditationModal = () => {
 		setShowMeditationModal(!showMeditationModal);
 	};
@@ -27,60 +36,67 @@ export default function DashBoard() {
 	const mindProgress = Math.min((meditation / 10) * 100, 100);
 
 	return (
-		<>
-			<div className="container">
-				<SideNav />
-				<main className="dashboard">
-					<div className="monster">
-						<Monster />
-					</div>
-					<div className="statusBar">
-						<MonstersInternalGoalTracker
-							goalType="fitness"
-							progress={fitnessProgress}
-						>
-							<Monster />
-							<StepsInputField activity="steps" />
-						</MonstersInternalGoalTracker>
+		<div className="container">
+			<SideNav />
+			<main className="dashboard">
+				<div className="monster">
+					<Monster ref={monsterRef} />
+				</div>
+				<div className="statusBar">
+					<MonstersInternalGoalTracker
+						goalType="fitness"
+						progress={fitnessProgress}
+						triggerJumpAnimation={triggerJumpAnimation}
+					>
+						<StepsInputField
+							activity="steps"
+							triggerJumpAnimation={triggerJumpAnimation}
+						/>
+					</MonstersInternalGoalTracker>
 
-						<MonstersInternalGoalTracker
-							goalType="health"
-							progress={healthProgress}
-						>
-							<Monster />
-							<StepsInputField activity="calories" />
-							<StepsInputField activity="weight" />
-						</MonstersInternalGoalTracker>
+					<MonstersInternalGoalTracker
+						goalType="health"
+						progress={healthProgress}
+						triggerJumpAnimation={triggerJumpAnimation}
+					>
+						<StepsInputField
+							activity="calories"
+							triggerJumpAnimation={triggerJumpAnimation}
+						/>
+						<StepsInputField
+							activity="weight"
+							triggerJumpAnimation={triggerJumpAnimation}
+						/>
+					</MonstersInternalGoalTracker>
 
-						<MonstersInternalGoalTracker
-							goalType="mind"
-							progress={mindProgress}
-						>
-							<button className="modalButton" onClick={toggleJournalModal}>
-								Open Journal
-							</button>
-
-							<button className="modalButton" onClick={toggleMeditationModal}>
-								Open Meditation
-							</button>
-
-							{showJournalModal && (
-								<JournalEntryInput
-									showModal={showJournalModal}
-									onClose={toggleJournalModal}
-								/>
-							)}
-
-							{showMeditationModal && (
-								<MeditationTimer
-									showModal={showMeditationModal}
-									onClose={toggleMeditationModal}
-								/>
-							)}
-						</MonstersInternalGoalTracker>
-					</div>
-				</main>
-			</div>
-		</>
+					<MonstersInternalGoalTracker
+						goalType="mind"
+						progress={mindProgress}
+						triggerJumpAnimation={triggerJumpAnimation}
+					>
+						<button className="modalButton" onClick={toggleJournalModal}>
+							Open Journal
+						</button>
+						<button className="modalButton" onClick={toggleMeditationModal}>
+							Open Meditation
+						</button>
+						{showJournalModal && (
+							<JournalEntryInput
+								showModal={showJournalModal}
+								onClose={handleCloseJournalModal}
+								triggerJumpAnimation={triggerJumpAnimation}
+							/>
+						)}
+						{showMeditationModal && (
+							<MeditationTimer
+								showModal={showMeditationModal}
+								onClose={toggleMeditationModal}
+								triggerJumpAnimation={triggerJumpAnimation}
+							/>
+						)}
+					</MonstersInternalGoalTracker>
+				</div>
+			</main>
+		</div>
 	);
 }
