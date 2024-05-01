@@ -11,11 +11,12 @@ const StepsInputField = ({ activity, onClose, triggerJumpAnimation }) => {
 	};
 
 	const handleSubmit = (event) => {
-		console.log("Submitting form...");
 		event.preventDefault();
-		updateStats(activity, parseInt(value, 10) || 0); // Update stats context
+		updateStats(activity, parseInt(value, 10) || 0);
 		setValue("");
 		triggerJumpAnimation();
+		console.log(triggerJumpAnimation);
+		if (onClose) onClose();
 	};
 
 	return (

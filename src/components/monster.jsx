@@ -1,59 +1,63 @@
 import React, {
+	useContext,
 	useRef,
 	useState,
 	useEffect,
 	forwardRef,
-	useImperativeHandle,
 } from "react";
 import { Stage } from "@pixi/react";
-import AnimatedEggSprite from "./monsterAnimation";
+import StatsContext from "./StatsContex";
+import AnimatedEggSprite from "./UncrackedAnimation";
+import AnimatedCrackedEggSprite from "./CrackedEggAnimation";
+import TransitionAnimationOne from "./CrackedEggTransitionOne";
 
-const Monster = forwardRef((props, ref) => {
-	const monsterContainerRef = useRef(null);
+const Monster = forwardRef(({ triggerJumpAnimation }, ref) => {
+	const { steps } = useContext(StatsContext);
+	const containerRef = useRef(null);
 	const [containerSize, setContainerSize] = useState({
 		width: 640,
 		height: 360,
 	});
-	const animatedEggRef = useRef(); // Internal ref for the animated sprite
+	const [transitionPlayed, setTransitionPlayed] = useState(false);
 
 	useEffect(() => {
-		const updateSize = () => {
-			if (monsterContainerRef.current) {
+		function updateSize() {
+			if (containerRef.current) {
 				setContainerSize({
-					width: monsterContainerRef.current.clientWidth,
-					height: monsterContainerRef.current.clientHeight,
+					width: containerRef.current.clientWidth,
+					height: containerRef.current.clientHeight,
 				});
 			}
-		};
-
+		}
 		window.addEventListener("resize", updateSize);
 		updateSize();
-
 		return () => window.removeEventListener("resize", updateSize);
 	}, []);
 
-	// Exposing the handleJump function to the parent component using useImperativeHandle
-	useImperativeHandle(ref, () => ({
-		handleJump: () => {
-			if (animatedEggRef.current) {
-				animatedEggRef.current.triggerJumpAnimation(); // Call the function from the child component
-			}
-		},
-	}));
+	let ActiveSprite =
+		!transitionPlayed && steps >= 20000
+			? TransitionAnimationOne
+			: AnimatedEggSprite;
+
+	useEffect(() => {
+		if (steps >= 20000 && !transitionPlayed) {
+			setTransitionPlayed(true);
+		}
+	}, [steps, transitionPlayed]);
 
 	return (
-		<div ref={monsterContainerRef} style={{ width: "100%", height: "100%" }}>
+		<div ref={containerRef} style={{ width: "100%", height: "100%" }}>
 			<Stage
 				width={containerSize.width}
 				height={containerSize.height}
 				options={{ backgroundColor: 0x000000, backgroundAlpha: 0 }}
 			>
-				<AnimatedEggSprite
-					ref={animatedEggRef}
+				<ActiveSprite
 					x={containerSize.width / 2}
 					y={containerSize.height / 2}
 					containerWidth={containerSize.width}
 					containerHeight={containerSize.height}
+					triggerJumpAnimation={triggerJumpAnimation}
 				/>
 			</Stage>
 		</div>

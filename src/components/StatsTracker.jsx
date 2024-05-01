@@ -9,26 +9,45 @@ const StatsProvider = ({ children }) => {
 	const [journal, setJournal] = useState("");
 
 	const updateStats = (activityName, newValue) => {
+		console.log(`Updating ${activityName} to ${newValue}`);
 		if (activityName === "calories") {
 			setCalories(newValue);
-		}
-		if (activityName === "steps") {
+		} else if (activityName === "steps") {
 			setSteps(newValue);
-		}
-		if (activityName === "weight") {
+		} else if (activityName === "weight") {
 			setWeight(newValue);
-		}
-		if (activityName === "meditation") {
+		} else if (activityName === "meditation") {
 			setMeditation(newValue);
-		}
-		if (activityName === "journal") {
+		} else if (activityName === "journal") {
 			setJournal(newValue);
 		}
 	};
+	console.log("StatsProvider values:", {
+		steps,
+		calories,
+		weight,
+		meditation,
+		journal,
+		updateStats,
+	});
+	console.log("Providing stats:", {
+		steps,
+		calories,
+		weight,
+		meditation,
+		journal,
+	});
 
 	return (
 		<StatsContext.Provider
-			value={{ calories, steps, weight, updateStats, meditation, journal }}
+			value={{
+				steps,
+				calories,
+				weight,
+				meditation,
+				journal,
+				updateStats,
+			}}
 		>
 			{children}
 		</StatsContext.Provider>

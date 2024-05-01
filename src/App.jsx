@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./Routes";
 
 function App() {
+	console.log("Rendering App with StatsProvider");
 	return (
 		<div className="App">
 			<StatsProvider>
