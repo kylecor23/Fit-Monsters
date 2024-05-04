@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import StatsContext from "./StatsContex";
+import StatsContext from "./StatsContext";
 
 const StepsInputField = ({ activity, onClose, triggerJumpAnimation }) => {
 	const { updateStats } = useContext(StatsContext);

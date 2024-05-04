@@ -4,62 +4,105 @@ import React, {
 	useState,
 	useEffect,
 	forwardRef,
+	useImperativeHandle,
 } from "react";
-import { Stage } from "@pixi/react";
-import StatsContext from "./StatsContex";
-import AnimatedEggSprite from "./UncrackedAnimation";
-import AnimatedCrackedEggSprite from "./CrackedEggAnimation";
-import TransitionAnimationOne from "./CrackedEggTransitionOne";
+import StatsContext from "./StatsContext";
+
+// Define images and thresholds for different stages in an array for easy access
+const stages = [
+	{
+		name: "normal",
+		threshold: 0,
+		static: "/noCracks.png",
+		bounce: "/noCracksBounceOneShot.GIF",
+		wiggle: "/noCracksWiggleOneShot.GIF",
+	},
+	{
+		name: "stageOne",
+		threshold: 20000,
+		static: "/stageOneCracks.PNG",
+		bounce: "/stageOneCracksBounceOneShot.gif",
+		wiggle: "/stageOneCracksWiggleOneShot.gif",
+		transition: "/stageOneCracks.gif",
+	},
+	{
+		name: "stageTwo",
+		threshold: 40000,
+		static: "/stageTwoCracks.PNG",
+		bounce: "/stageTwoCracksBounceOneShot.gif",
+		wiggle: "/stageTwoCracksWiggleOneShot.gif",
+		transition: "/stageTwoCracks.gif",
+	},
+	{
+		name: "stageThree",
+		threshold: 80000,
+		static: "/stageThreeCracks.PNG",
+		bounce: "/StageThreeCracksBounceOneShot.gif",
+		wiggle: "/stageThreeCracksWiggleOneShot.gif",
+		transition: "/stageThreeCracks.gif",
+	},
+];
+
+// Helper function to find the current stage based on step count
+const getCurrentStage = (steps) => {
+	// Return the highest stage for which the step count exceeds the threshold
+	return (
+		stages
+			.slice()
+			.reverse()
+			.find((stage) => steps >= stage.threshold) || stages[0]
+	);
+};
 
 const Monster = forwardRef(({ triggerJumpAnimation }, ref) => {
 	const { steps } = useContext(StatsContext);
-	const containerRef = useRef(null);
-	const [containerSize, setContainerSize] = useState({
-		width: 640,
-		height: 360,
-	});
-	const [transitionPlayed, setTransitionPlayed] = useState(false);
+	const [currentStage, setCurrentStage] = useState(getCurrentStage(0)); // Start at normal
+	const [imageSrc, setImageSrc] = useState(currentStage.static);
 
 	useEffect(() => {
-		function updateSize() {
-			if (containerRef.current) {
-				setContainerSize({
-					width: containerRef.current.clientWidth,
-					height: containerRef.current.clientHeight,
-				});
-			}
+		const targetStage = getCurrentStage(steps);
+		if (targetStage.name !== currentStage.name) {
+			setCurrentStage(targetStage);
+			queueTransitions(currentStage, targetStage);
 		}
-		window.addEventListener("resize", updateSize);
-		updateSize();
-		return () => window.removeEventListener("resize", updateSize);
-	}, []);
+	}, [steps, currentStage]);
 
-	let ActiveSprite =
-		!transitionPlayed && steps >= 20000
-			? TransitionAnimationOne
-			: AnimatedEggSprite;
+	const playAnimation = (type, stage) => {
+		setImageSrc(stage[type]);
+		setTimeout(() => {
+			setImageSrc(stage.static); // Reset to static after animation completes
+		}, 3000); // Assuming each animation lasts 3 seconds
+	};
 
-	useEffect(() => {
-		if (steps >= 20000 && !transitionPlayed) {
-			setTransitionPlayed(true);
-		}
-	}, [steps, transitionPlayed]);
+	// Queue transitions to play them sequentially
+	const queueTransitions = (fromStage, toStage) => {
+		const startIndex = stages.indexOf(fromStage);
+		const endIndex = stages.indexOf(toStage);
+		const transitionsToPlay = stages.slice(startIndex + 1, endIndex + 1);
+
+		transitionsToPlay.forEach((stage, index) => {
+			setTimeout(() => {
+				if (stage.transition) {
+					playAnimation("transition", stage);
+				}
+			}, index * 3500); // Each transition is spaced out by 3.5 seconds
+		});
+	};
+
+	useImperativeHandle(ref, () => ({
+		handleJump: () => {
+			playAnimation("bounce", currentStage); // Play bounce animation when externally triggered
+		},
+	}));
 
 	return (
-		<div ref={containerRef} style={{ width: "100%", height: "100%" }}>
-			<Stage
-				width={containerSize.width}
-				height={containerSize.height}
-				options={{ backgroundColor: 0x000000, backgroundAlpha: 0 }}
-			>
-				<ActiveSprite
-					x={containerSize.width / 2}
-					y={containerSize.height / 2}
-					containerWidth={containerSize.width}
-					containerHeight={containerSize.height}
-					triggerJumpAnimation={triggerJumpAnimation}
-				/>
-			</Stage>
+		<div className="monster">
+			<img
+				src={imageSrc}
+				alt="Monster"
+				onClick={() => playAnimation("wiggle", currentStage)}
+				className="monster-img"
+			/>
 		</div>
 	);
 });

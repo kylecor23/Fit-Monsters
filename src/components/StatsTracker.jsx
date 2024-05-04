@@ -1,5 +1,5 @@
 import { useState } from "react";
-import StatsContext from "./StatsContex";
+import StatsContext from "./StatsContext";
 
 const StatsProvider = ({ children }) => {
 	const [steps, setSteps] = useState(0);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StepsInputField from "./StatInput";
 import { useContext } from "react";
-import StatsContext from "./StatsContex";
+import StatsContext from "./StatsContext";
 import Modal from "./Modal";
 
 function formatTime(timer) {

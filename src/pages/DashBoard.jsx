@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef } from "react";
 import MonstersInternalGoalTracker from "../components/MonsterInternalGoal";
-import StatsContext from "../components/StatsContex";
+import StatsContext from "../components/StatsContext";
 import StepsInputField from "../components/StatInput";
 import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";

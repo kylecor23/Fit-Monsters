@@ -260,20 +260,18 @@ header {
 
 .monster {
 	max-height: 70vh;
-	max-width: 75%;
-	width: 100%;
+	width: 75%; /* or a fixed width, depending on your layout needs */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
-	flex: 0 0 auto;
-	flex-grow: 1;
 }
 
-.monster img {
-	width: 100%;
-	height: auto;
-	object-fit: contain;
+.monster-img {
+	width: 100%; /* Responsive width */
+	height: auto; /* Height adjusts automatically */
+	aspect-ratio: 1 / 1; /* Forces a square aspect ratio */
+	object-fit: contain; /* Ensures the entire image fits within the dimensions with no cropping */
 }
 .Challengesdashboard {
 	display: flex;

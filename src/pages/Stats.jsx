@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
-import StatsContext from "../components/StatsContex";
+import StatsContext from "../components/StatsContext";
 import SideNav from "../components/AsideNav";
 
 function Stats() {

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import Popup from "../components/popup-menu";
 import { Link } from "react-router-dom";
-import StatsContext from "../components/StatsContex";
+import StatsContext from "../components/StatsContext";
 import { pickItemBasedOnDate } from "../components/utils";
 import SideNav from "../components/AsideNav";
 import Monster from "../components/monster";

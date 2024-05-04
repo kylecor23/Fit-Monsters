@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import StatsContext from "./StatsContex";
+import StatsContext from "./StatsContext";
 import Modal from "./Modal";
 
 const JournalEntryInput = ({ onClose, triggerJumpAnimation }) => {
