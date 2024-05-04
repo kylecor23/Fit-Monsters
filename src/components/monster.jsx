@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import StatsContext from "./StatsContext";
 
-// Define images and thresholds for different stages in an array for easy access
 const stages = [
 	{
 		name: "normal",
@@ -70,11 +69,10 @@ const Monster = forwardRef(({ triggerJumpAnimation }, ref) => {
 	const playAnimation = (type, stage) => {
 		setImageSrc(stage[type]);
 		setTimeout(() => {
-			setImageSrc(stage.static); // Reset to static after animation completes
-		}, 3000); // Assuming each animation lasts 3 seconds
+			setImageSrc(stage.static);
+		}, 3000);
 	};
 
-	// Queue transitions to play them sequentially
 	const queueTransitions = (fromStage, toStage) => {
 		const startIndex = stages.indexOf(fromStage);
 		const endIndex = stages.indexOf(toStage);
@@ -91,7 +89,7 @@ const Monster = forwardRef(({ triggerJumpAnimation }, ref) => {
 
 	useImperativeHandle(ref, () => ({
 		handleJump: () => {
-			playAnimation("bounce", currentStage); // Play bounce animation when externally triggered
+			playAnimation("bounce", currentStage);
 		},
 	}));
 
