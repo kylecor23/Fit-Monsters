@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faGhost,
 	faChartLine,
 	faScroll,
+	faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useLocation } from "react-router-dom";
+import StatsContext from "./StatsContext";
 
 export default function SideNav() {
 	const location = useLocation();
-
 	const [activePage, setActivePage] = useState(() => {
 		return localStorage.getItem("activePage") || "";
 	});
+	const { toggleGuide } = useContext(StatsContext); // Directly use context here if toggleGuide is part of context
 
 	useEffect(() => {
 		setActivePage(location.pathname);
@@ -64,6 +66,12 @@ export default function SideNav() {
 					>
 						<FontAwesomeIcon icon={faScroll} className="icon" />
 						Challenges
+					</button>
+				</li>
+				<li>
+					<button className="nav-button" onClick={toggleGuide}>
+						<FontAwesomeIcon icon={faQuestion} className="icon" />
+						Guide
 					</button>
 				</li>
 			</ul>

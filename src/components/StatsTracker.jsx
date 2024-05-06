@@ -7,6 +7,7 @@ const StatsProvider = ({ children }) => {
 	const [weight, setWeight] = useState(0);
 	const [meditation, setMeditation] = useState(0);
 	const [journal, setJournal] = useState("");
+	const [showGuide, setShowGuide] = useState(false);
 
 	const updateStats = (activityName, newValue) => {
 		console.log(`Updating ${activityName} to ${newValue}`);
@@ -22,21 +23,13 @@ const StatsProvider = ({ children }) => {
 			setJournal(newValue);
 		}
 	};
-	console.log("StatsProvider values:", {
-		steps,
-		calories,
-		weight,
-		meditation,
-		journal,
-		updateStats,
-	});
-	console.log("Providing stats:", {
-		steps,
-		calories,
-		weight,
-		meditation,
-		journal,
-	});
+
+	const toggleGuide = () => {
+		setShowGuide((prev) => {
+			console.log("Toggling guide from", prev, "to", !prev);
+			return !prev;
+		});
+	};
 
 	return (
 		<StatsContext.Provider
@@ -47,6 +40,8 @@ const StatsProvider = ({ children }) => {
 				meditation,
 				journal,
 				updateStats,
+				showGuide,
+				toggleGuide,
 			}}
 		>
 			{children}

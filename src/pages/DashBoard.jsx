@@ -47,6 +47,7 @@ export default function DashBoard() {
 						goalType="fitness"
 						progress={fitnessProgress}
 						triggerJumpAnimation={triggerJumpAnimation}
+						id="fitness"
 					>
 						<StepsInputField
 							activity="steps"
