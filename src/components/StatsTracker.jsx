@@ -8,6 +8,10 @@ const StatsProvider = ({ children }) => {
 	const [meditation, setMeditation] = useState(0);
 	const [journal, setJournal] = useState("");
 	const [showGuide, setShowGuide] = useState(false);
+	const [isMeditating, setIsMeditating] = useState(false);
+
+	const startMeditation = () => setIsMeditating(true);
+	const endMeditation = () => setIsMeditating(false);
 
 	const updateStats = (activityName, newValue) => {
 		console.log(`Updating ${activityName} to ${newValue}`);
@@ -39,9 +43,12 @@ const StatsProvider = ({ children }) => {
 				weight,
 				meditation,
 				journal,
+				isMeditating,
 				updateStats,
-				showGuide,
 				toggleGuide,
+				startMeditation,
+				endMeditation,
+				showGuide,
 			}}
 		>
 			{children}

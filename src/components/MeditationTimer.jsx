@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import StepsInputField from "./StatInput";
-import { useContext } from "react";
-import StatsContext from "./StatsContext";
+import React, { useState, useEffect, useContext } from "react";
 import Modal from "./Modal";
+import StatsContext from "./StatsContext";
+import Monster from "./monster";
 
 function formatTime(timer) {
 	const minutes = Math.floor(timer / 60);
@@ -15,9 +14,10 @@ function formatTime(timer) {
 
 const MeditationTimer = ({ showModal, onClose }) => {
 	const [duration, setDuration] = useState(5); // Default duration is 5 minutes
-	const [isTimerStarted, setIsTimerStarted] = useState(false);
 	const [timer, setTimer] = useState(duration * 60);
-	const { updateStats } = useContext(StatsContext);
+	const [isTimerStarted, setIsTimerStarted] = useState(false);
+	const { updateStats, startMeditation, endMeditation } =
+		useContext(StatsContext);
 	const [showTimerInput, setShowTimerInput] = useState(true);
 	const [isPaused, setIsPaused] = useState(false);
 	const [isCloseVisible, setIsCloseVisible] = useState(true);
@@ -25,7 +25,6 @@ const MeditationTimer = ({ showModal, onClose }) => {
 	const handleInputChange = (event) => {
 		const inputValue = event.target.value;
 		setDuration(inputValue);
-
 		if (!isNaN(inputValue)) {
 			setTimer(Math.max(1, parseInt(inputValue, 10)) * 60);
 		}
@@ -35,6 +34,7 @@ const MeditationTimer = ({ showModal, onClose }) => {
 		setIsTimerStarted(true);
 		setShowTimerInput(false);
 		setIsCloseVisible(false);
+		startMeditation(); // Start meditation via context
 	};
 
 	const handlePauseTimer = () => {
@@ -53,39 +53,35 @@ const MeditationTimer = ({ showModal, onClose }) => {
 		setShowTimerInput(true);
 		setIsPaused(false);
 		setIsCloseVisible(true);
+		endMeditation(); // End meditation via context
 	};
 
 	const handleCloseMeditation = () => {
-		onClose();
+		if (isTimerStarted) {
+			setIsTimerStarted(false);
+			setTimer(duration * 60); // Reset the timer
+		}
+		endMeditation(); // Ensure the animation ends if the modal is closing
+		onClose(); // Call the passed onClose function to handle any additional cleanup
 	};
 
 	useEffect(() => {
 		let interval;
-
 		if (isTimerStarted && timer > 0 && !isPaused) {
 			interval = setInterval(() => {
 				setTimer((prevTimer) => prevTimer - 1);
 			}, 1000);
 		} else if (timer === 0) {
-			handleTimerComplete();
+			handleStopTimer();
 		}
 
-		return () => {
-			clearInterval(interval);
-		};
+		return () => clearInterval(interval);
 	}, [isTimerStarted, timer, isPaused]);
-
-	const handleTimerComplete = () => {
-		setIsTimerStarted(false);
-		onClose();
-		const actualDuration = duration - Math.floor(timer / 60);
-		updateStats("meditation", actualDuration);
-	};
 
 	const ringFillPercentage = (timer / (duration * 60)) * 100;
 
 	return (
-		<Modal onClose={onClose} show={showModal}>
+		<Modal onClose={handleCloseMeditation} show={showModal}>
 			<div className="timer-container">
 				<div className="timer">
 					<div className="timer-ring">
@@ -104,6 +100,7 @@ const MeditationTimer = ({ showModal, onClose }) => {
 					</div>
 					<div className="digital-clock">{formatTime(timer)}</div>
 				</div>
+				<Monster />
 				{showTimerInput && (
 					<div>
 						<label htmlFor="meditationDuration">
@@ -116,12 +113,10 @@ const MeditationTimer = ({ showModal, onClose }) => {
 							min={1}
 							onChange={handleInputChange}
 						/>
+						<button className="modalButton" onClick={handleStartTimer}>
+							Start Meditation
+						</button>
 					</div>
-				)}
-				{showTimerInput && !isTimerStarted && (
-					<button className="modalButton" onClick={handleStartTimer}>
-						Start Meditation
-					</button>
 				)}
 				{!showTimerInput && isTimerStarted && !isPaused && (
 					<button className="modalButton" onClick={handlePauseTimer}>
@@ -142,9 +137,6 @@ const MeditationTimer = ({ showModal, onClose }) => {
 					<button className="modalButton" onClick={handleCloseMeditation}>
 						Close Meditation
 					</button>
-				)}
-				{timer === 0 && (
-					<StepsInputField activity="meditation" taskType="meditation" />
 				)}
 			</div>
 		</Modal>

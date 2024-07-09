@@ -15,7 +15,7 @@ const StepsInputField = ({ activity, onClose, triggerJumpAnimation }) => {
 		updateStats(activity, parseInt(value, 10) || 0);
 		setValue("");
 		triggerJumpAnimation();
-		console.log(triggerJumpAnimation);
+
 		if (onClose) onClose();
 	};
 

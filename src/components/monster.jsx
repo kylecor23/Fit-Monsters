@@ -1,9 +1,9 @@
 import React, {
 	useContext,
-	useRef,
 	useState,
 	useEffect,
 	forwardRef,
+	useRef,
 	useImperativeHandle,
 } from "react";
 import StatsContext from "./StatsContext";
@@ -40,11 +40,19 @@ const stages = [
 		wiggle: "/stageThreeCracksWiggleOneShot.gif",
 		transition: "/stageThreeCracks.gif",
 	},
+	{
+		name: "stageMonster",
+		threshold: 100000,
+		static: "/dragonNormal.gif",
+		bounce: "/dragonSquat.gif",
+		wiggle: "/dragonSquat.gif",
+		transition: "/eggHatching.gif",
+		meditation: "/dragonMeditation.gif",
+	},
 ];
 
 // Helper function to find the current stage based on step count
 const getCurrentStage = (steps) => {
-	// Return the highest stage for which the step count exceeds the threshold
 	return (
 		stages
 			.slice()
@@ -53,54 +61,68 @@ const getCurrentStage = (steps) => {
 	);
 };
 
-const Monster = forwardRef(({ triggerJumpAnimation }, ref) => {
-	const { steps } = useContext(StatsContext);
-	const [currentStage, setCurrentStage] = useState(getCurrentStage(0)); // Start at normal
+const Monster = forwardRef((props, ref) => {
+	const { steps, isMeditating } = useContext(StatsContext);
+	const [currentStage, setCurrentStage] = useState(getCurrentStage(steps));
 	const [imageSrc, setImageSrc] = useState(currentStage.static);
+	const transitionRef = useRef(null);
 
 	useEffect(() => {
 		const targetStage = getCurrentStage(steps);
-		if (targetStage.name !== currentStage.name) {
-			setCurrentStage(targetStage);
+		if (targetStage !== currentStage) {
 			queueTransitions(currentStage, targetStage);
 		}
-	}, [steps, currentStage]);
+	}, [steps]);
+
+	const queueTransitions = (fromStage, toStage) => {
+		const fromIndex = stages.indexOf(fromStage);
+		const toIndex = stages.indexOf(toStage);
+		let delay = 0;
+
+		for (let i = fromIndex + 1; i <= toIndex; i++) {
+			setTimeout(() => {
+				playAnimation("transition", stages[i]);
+				if (i === toIndex) {
+					setCurrentStage(stages[i]);
+					setImageSrc(stages[i].static);
+				}
+			}, delay);
+			delay += 3500;
+		}
+	};
 
 	const playAnimation = (type, stage) => {
 		setImageSrc(stage[type]);
-		setTimeout(() => {
+		clearTimeout(transitionRef.current);
+		transitionRef.current = setTimeout(() => {
 			setImageSrc(stage.static);
 		}, 3000);
 	};
 
-	const queueTransitions = (fromStage, toStage) => {
-		const startIndex = stages.indexOf(fromStage);
-		const endIndex = stages.indexOf(toStage);
-		const transitionsToPlay = stages.slice(startIndex + 1, endIndex + 1);
-
-		transitionsToPlay.forEach((stage, index) => {
-			setTimeout(() => {
-				if (stage.transition) {
-					playAnimation("transition", stage);
-				}
-			}, index * 3500); // Each transition is spaced out by 3.5 seconds
-		});
-	};
+	useEffect(() => {
+		if (isMeditating && currentStage.name === "stageMonster") {
+			setImageSrc(currentStage.meditation);
+		} else {
+			setImageSrc(currentStage.static);
+		}
+	}, [isMeditating, currentStage]);
 
 	useImperativeHandle(ref, () => ({
-		handleJump: () => {
-			playAnimation("bounce", currentStage);
+		handleJump: () => playAnimation("bounce", currentStage),
+		playMeditationAnimation: () => {
+			if (currentStage.name === "stageMonster") {
+				setImageSrc(currentStage.meditation);
+			}
 		},
+		endMeditationAnimation: () => setImageSrc(currentStage.static),
 	}));
 
 	return (
-		<div className="monster">
-			<img
-				src={imageSrc}
-				alt="Monster"
-				onClick={() => playAnimation("wiggle", currentStage)}
-				className="monster-img"
-			/>
+		<div
+			className="monster"
+			onClick={() => playAnimation("wiggle", currentStage)}
+		>
+			<img src={imageSrc} alt="Monster" className="monster-img" />
 		</div>
 	);
 });

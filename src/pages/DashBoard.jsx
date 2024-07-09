@@ -6,6 +6,7 @@ import JournalEntryInput from "../components/Journal.JSX";
 import MeditationTimer from "../components/MeditationTimer";
 import Monster from "../components/monster";
 import SideNav from "../components/AsideNav";
+import FeatureGuide from "../components/FeatureGuide";
 
 export default function DashBoard() {
 	const { steps, calories, meditation, journal } = useContext(StatsContext);
@@ -39,7 +40,7 @@ export default function DashBoard() {
 		<div className="container">
 			<SideNav />
 			<main className="dashboard">
-				<div className="monster">
+				<div className="monster" id="monster">
 					<Monster ref={monsterRef} />
 				</div>
 				<div className="statusBar">
@@ -47,7 +48,7 @@ export default function DashBoard() {
 						goalType="fitness"
 						progress={fitnessProgress}
 						triggerJumpAnimation={triggerJumpAnimation}
-						id="fitness"
+						data-guide="fitness-progress"
 					>
 						<StepsInputField
 							activity="steps"
@@ -59,6 +60,7 @@ export default function DashBoard() {
 						goalType="health"
 						progress={healthProgress}
 						triggerJumpAnimation={triggerJumpAnimation}
+						data-guide="health-progress"
 					>
 						<StepsInputField
 							activity="calories"
@@ -74,6 +76,7 @@ export default function DashBoard() {
 						goalType="mind"
 						progress={mindProgress}
 						triggerJumpAnimation={triggerJumpAnimation}
+						data-guide="mind-progress"
 					>
 						<button className="modalButton" onClick={toggleJournalModal}>
 							Open Journal
@@ -97,6 +100,7 @@ export default function DashBoard() {
 						)}
 					</MonstersInternalGoalTracker>
 				</div>
+				<FeatureGuide />
 			</main>
 		</div>
 	);

@@ -6,7 +6,6 @@ import router from "./Routes";
 import FeatureGuide from "./components/FeatureGuide";
 
 function App() {
-	console.log("Rendering App with StatsProvider");
 	return (
 		<div className="App">
 			<StatsProvider>

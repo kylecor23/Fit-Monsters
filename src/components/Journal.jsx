@@ -26,8 +26,11 @@ const JournalEntryInput = ({ onClose, triggerJumpAnimation }) => {
 		setLastEntry(journalEntry);
 		setJournalEntry("");
 		triggerJumpAnimation();
-		console.log(triggerJumpAnimation);
 		if (onClose) onClose();
+	};
+
+	const toggleViewLastEntry = () => {
+		setViewLastEntry(!viewLastEntry);
 	};
 
 	return (
@@ -44,6 +47,15 @@ const JournalEntryInput = ({ onClose, triggerJumpAnimation }) => {
 						Submit Journal Entry
 					</button>
 				</form>
+				<button className="modalButton" onClick={toggleViewLastEntry}>
+					{viewLastEntry ? "Hide Last Entry" : "View Last Entry"}
+				</button>
+				{viewLastEntry && lastEntry && (
+					<div>
+						<h3>Last Journal Entry:</h3>
+						<p>{lastEntry}</p>
+					</div>
+				)}
 			</Modal>
 		</>
 	);
