@@ -12,11 +12,11 @@ export default function DashBoard() {
 	const { steps, calories, meditation, journal } = useContext(StatsContext);
 	const [showJournalModal, setShowJournalModal] = useState(false);
 	const [showMeditationModal, setShowMeditationModal] = useState(false);
-	const monsterRef = useRef(); // Create a ref for the Monster component
+	const monsterRef = useRef();
 
 	const triggerJumpAnimation = () => {
 		if (monsterRef.current) {
-			monsterRef.current.handleJump(); // Call handleJump to trigger the jump animation
+			monsterRef.current.handleJump();
 		}
 	};
 

@@ -16,7 +16,6 @@ function Modal({ onClose, children }) {
 		};
 	}, [onClose]);
 
-	// Extend children with a ref only if they need it
 	const enhancedChildren = React.Children.map(children, (child) => {
 		if (React.isValidElement(child) && child.props.needsRef) {
 			return React.cloneElement(child, { containerRef: modalRef });

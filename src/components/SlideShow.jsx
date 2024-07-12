@@ -27,7 +27,7 @@ function SlideShow() {
 	return (
 		<div>
 			<ImageCarousel images={images} nextSlide={nextSlide} />
-			{/* add funtion onclick to button */}
+
 			<button onClick={toggleSlide}>Toggle Slide</button>
 		</div>
 	);

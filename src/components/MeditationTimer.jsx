@@ -13,7 +13,7 @@ function formatTime(timer) {
 }
 
 const MeditationTimer = ({ showModal, onClose }) => {
-	const [duration, setDuration] = useState(5); // Default duration is 5 minutes
+	const [duration, setDuration] = useState(5);
 	const [timer, setTimer] = useState(duration * 60);
 	const [isTimerStarted, setIsTimerStarted] = useState(false);
 	const { updateStats, startMeditation, endMeditation } =
@@ -59,10 +59,10 @@ const MeditationTimer = ({ showModal, onClose }) => {
 	const handleCloseMeditation = () => {
 		if (isTimerStarted) {
 			setIsTimerStarted(false);
-			setTimer(duration * 60); // Reset the timer
+			setTimer(duration * 60);
 		}
-		endMeditation(); // Ensure the animation ends if the modal is closing
-		onClose(); // Call the passed onClose function to handle any additional cleanup
+		endMeditation();
+		onClose();
 	};
 
 	useEffect(() => {

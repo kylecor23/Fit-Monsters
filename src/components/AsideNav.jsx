@@ -14,7 +14,7 @@ export default function SideNav() {
 	const [activePage, setActivePage] = useState(() => {
 		return localStorage.getItem("activePage") || "";
 	});
-	const { toggleGuide } = useContext(StatsContext); // Directly use context here if toggleGuide is part of context
+	const { toggleGuide } = useContext(StatsContext);
 
 	useEffect(() => {
 		setActivePage(location.pathname);
@@ -68,12 +68,12 @@ export default function SideNav() {
 						Challenges
 					</button>
 				</li>
-				<li>
+				{/*	<li>
 					<button className="nav-button" onClick={toggleGuide}>
 						<FontAwesomeIcon icon={faQuestion} className="icon" />
 						Guide
 					</button>
-				</li>
+					</li>*/}
 			</ul>
 		</aside>
 	);

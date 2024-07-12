@@ -51,7 +51,7 @@ const stages = [
 	},
 ];
 
-// Helper function to find the current stage based on step count
+//  function to find the current stage based on step count
 const getCurrentStage = (steps) => {
 	return (
 		stages

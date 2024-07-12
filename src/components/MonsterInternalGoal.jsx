@@ -87,7 +87,7 @@ function MonstersInternalGoalTracker({ goalType, progress, children }) {
 		}
 	}, [isGoalCompleted]);
 
-	// Add this function to get the points for each goal type
+	// function to get the points for each goal type
 	const getPointsForGoalType = (goalType) => {
 		switch (goalType) {
 			case "fitness":
